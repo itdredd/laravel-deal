@@ -26,6 +26,15 @@ class Deal extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function members() {
+        return User::whereIn('id', explode(", ", $this->members_id))->get();
+    }
+
+    public function isMember(User $user) {
+        return isset($this->members_id, $user->id);
+    }
+
+
     protected function price() : Attribute {
         return Attribute::make(
             get: fn ($value, $attributes) => $attributes['value'] . ' ' . $attributes['currency'],

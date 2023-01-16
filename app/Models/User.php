@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
     ];
 
     /**
@@ -48,6 +49,10 @@ class User extends Authenticatable
     public function deals()
     {
         return $this->hasMany(Deal::class, 'author_id');
+    }
+
+    public function isAdmin() {
+        return $this->hasRole('admin');
     }
 
 }

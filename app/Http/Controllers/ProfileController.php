@@ -67,4 +67,13 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function avatar(Request $request) {
+        if($request->hasFile('avatar')){
+            $filename = $request->avatar->getClientOriginalName();
+            $request->avatar->storeAs('avatars',$filename,'public');
+            Auth()->user()->update(['avatar'=>$filename]);
+        }
+        return redirect()->back();
+    }
 }

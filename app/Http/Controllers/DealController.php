@@ -6,14 +6,18 @@ use App\Repository\DealRepository;
 use App\Http\Requests\DealPostRequest;
 use App\Models\Deal;
 use App\Models\User;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class DealController extends Controller
 {
+
+    private DealRepository $dealRepo;
+
+    public function __construct(DealRepository $dealRepo) {
+        $this->dealRepo = $dealRepo;
+    }
 
 
     public function store(Request $request) {
@@ -22,32 +26,37 @@ class DealController extends Controller
     }
 
     public function create(DealPostRequest $request) {
-        if (!User::where('id', $request->input('members_id'))->exists())
-            return 200; // TODO error
         $deal = new Deal;
         $deal->title = $request->input('title');
         $deal->value = $request->input('value');
         $deal->description = $request->input('description');
         $deal->currency = $request->input('currency');
-        $deal->members_id = $request->input('members_id');
         $deal->author_id = Auth::user()->id;
         $deal->status = 'awaiting';
+
+        $users = explode(',', $request->input('members_id'));
+        foreach($users as $key=>$user) {
+            $user = User::where('name', $user);
+            if(!$user || !$user->exists())
+                dd($user);
+                //abort(404);
+            else {
+                if(!$deal->members_id)
+                    $deal->members_id = $user->first()->id;
+                else
+                    $deal->members_id = $deal->members_id . ", " . $user->first()->id;
+            }
+
+        }
+
         $deal->save();
 
-        return redirect()->route('deal.list');
+        return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
 
     public function list(Request $request) {
 
-        if (!$request->query('status'))
-            $deals = Deal::where('author_id', Auth::user()->id)->orWhere('members_id', Auth::user()->id);
-        else
-            $deals = Deal::where('status', $request->input('status'))->where(function ($query) {
-                $query->where('author_id', Auth::user()->id)
-                    ->orWhere('members_id', Auth::user()->id);
-            });
-
-        $deals = $deals->get();
+        $deals = $this->dealRepo->findForUser(Auth::user(), $request->input('status'));
 
         if ($request->query('type') == 'json')
             return json_encode($deals);
@@ -65,6 +74,7 @@ class DealController extends Controller
         return Inertia::render('Deal/View', [
             'deal' => $deal,
             'user' => Auth::user(),
+            'members' => $deal->members(),
         ]);
 
     }

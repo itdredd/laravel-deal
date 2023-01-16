@@ -5,16 +5,27 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 defineProps({
     deal: Object,
     user: Object,
+    members: Object,
 })
 
 function convertTime(time) {
     return new Date(time).toLocaleString();
 }
 
+function listUsernames(members) {
+    let list = '';
+    for(const member of members) {
+        list += member.name;
+        if(member !== members[length+1])
+            list += ', ';
+    }
+    return list;
+}
+
 </script>
 
 <template>
-    <Head :title="'Deal:' + deal.title" />
+    <Head :title="'Deal: ' + deal.title" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -31,7 +42,7 @@ function convertTime(time) {
                     <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
                     <span class="deal-information--price block">Price: {{ deal.price }}</span>
                     <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
-                    <span class="deal-information--members block">Members: {{ deal.members_id }}</span>
+                    <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
                     <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
                 </div>
             </div>

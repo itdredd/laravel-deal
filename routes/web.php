@@ -39,6 +39,10 @@ Route::get('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'v
 Route::post('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'edit'])->name('deal.edit')->whereNumber('deal');
 
 //find
-Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'findUser'])->name('users.find');
+Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');
+Route::post('/users/find', [\App\Http\Controllers\UserController::class, 'findUser']);
+
+//profile
+Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');
 
 require __DIR__.'/auth.php';

@@ -1,61 +1,47 @@
 <script setup>
-import {useForm} from "@inertiajs/inertia-vue3";
 import { Head } from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import CurrencySelect from '@/Components/CurrencySelect.vue';
-import Checkbox from '@/Components/Checkbox.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import {ref, onMounted } from "vue";
 
-const form = useForm({
-    title: '',
-    description: '',
-    value: '',
-    currency: '',
-    members_id: '',
-
-});
-
-const submit = () => {
-    form.post(route('deal/create'), {
-        onFinish: () => form.reset('title'),
-    });
-};
+let users = ref([]);
+let finalUsers = ref([]);
 
 function findUser(event) {
-    $('.dropdown > ul').html("");
-    if (event.target.value.length >= 1) {
-        axios.get('/users/find', {
-            params: {
-                name: event.target.value,
-            }
-        })
-            .then(function (response) {
-                // handle success
-                console.log(response);
-                response.data.forEach(element => {
-                    console.log(element);
-                    $('.dropdown > ul').append('<li class="user-list" v-on:click="appendUser">' + element.name + '</li>')
-                })
+    users.value = [];
+    if(event.target.value.length >= 1) {
+        axios.post('/users/find/', {name: event.target.value}).then((response) => {
+            response.data.forEach(elem => users.value.push(elem));
 
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
+        }, (error) => {
+            console.log(error);
+        });
     }
+
 }
 
-function appendUser(event) {
-    if(event.target.matches(".user-list")) {
-        $("input#members_id")[0].value = event.target.innerText;
-    }
+function insertInFinal(user) {
+    let elem = $("input[name='members_id']")[0];
+    finalUsers.value.push(user);
+
+    if(elem.value === '')
+        elem.value += user.name;
+    else
+        elem.value += ', ' + user.name;
+}
+
+function remove(index, user) {
+    let users = $("input[name='members_id']")[0].value.split(', ');
+
+    finalUsers.value.splice(index, 1);
+    users.splice(index, 1);
+
+    $("input[name='members_id']")[0].value = users;
+
 }
 
 
@@ -84,8 +70,6 @@ function appendUser(event) {
                             autofocus
                             placeholder="Title"
                         />
-
-                        <InputError class="mt-2" :message="form.errors.title" />
                     </div>
 
                     <div class="mt-4">
@@ -98,8 +82,6 @@ function appendUser(event) {
                             class="mt-1 block w-full"
                             placeholder="Descripton"
                         />
-
-                        <InputError class="mt-2" :message="form.errors.description" />
                     </div>
                     <div class="mt-4">
                         <InputLabel for="value" value="Value" />
@@ -121,36 +103,31 @@ function appendUser(event) {
                                 required
                             />
                         </div>
-
-                        <InputError class="mt-2" :message="form.errors.value" />
-                        <InputError class="mt-2" :message="form.errors.currency" />
                     </div>
                     <div class="mt-4">
                         <InputLabel for="members_id" value="Members" />
+                        <ul>
+                            <li class="float-left pr-4" :id="user['id']" v-for="(user, index) in finalUsers" @click="remove(index, user)">{{ user['name'] }}</li>
+                        </ul>
                         <TextInput
                             id="members_id"
                             type="text"
-                            name="members_id"
                             class="mt-1 w-full"
-                            required
                             @input="findUser"
                         />
-                        <div class="dropdown" @click="appendUser"> <!--TODO realize-->
-                            <ul>
-
-                            </ul>
-                        </div>
-
-                        <InputError class="mt-2" :message="form.errors.members_id" />
+                        <ul>
+                            <li v-for="user in users" :id="user['id']"  @click="insertInFinal(user)" >User: {{ user['name'] }}</li>
+                        </ul>
                     </div>
 
 
                     <div class="flex items-center justify-end mt-4">
-                        <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                        <PrimaryButton class="ml-4">
                             Sent
                         </PrimaryButton>
                     </div>
                     <input type="hidden" name="_token" :value="csrf">
+                    <input type="hidden" name="members_id">
                 </form>
             </div>
         </div>
