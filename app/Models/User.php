@@ -46,6 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['roles'];
+
     public function deals()
     {
         return $this->hasMany(Deal::class, 'author_id');
@@ -53,6 +55,10 @@ class User extends Authenticatable
 
     public function isAdmin() {
         return $this->hasRole('admin');
+    }
+
+    public function getAvatarUrl() {
+        return $this->avatar ? '/storage/avatars/' . $this->avatar : 'https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-default-male-avatar-png-image_2811083.jpg';
     }
 
 }

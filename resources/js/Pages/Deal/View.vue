@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 defineProps({
     deal: Object,
-    user: Object,
+    visitor: Object,
     members: Object,
 })
 
@@ -14,12 +14,23 @@ function convertTime(time) {
 
 function listUsernames(members) {
     let list = '';
+
     for(const member of members) {
         list += member.name;
-        if(member !== members[length+1])
+
+        if(member !== members[members.length-1])
             list += ', ';
     }
     return list;
+}
+
+function price(value, currency) {
+    return value + ' ' + currency;
+}
+
+function isMember(members, visitor) {
+    const idList = members.map(x => x.id);
+    return idList.includes(visitor.id);
 }
 
 </script>
@@ -31,7 +42,10 @@ function listUsernames(members) {
         <template #header>
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto inline mr-2">Deal: {{deal.title}}</h2>
-                <a :href="route('deal.edit', {'deal': deal.id})" v-if="user.id == deal.author_id || ('editAnyDeal')"><i class="fa-solid fa-pen-to-square"></i></a>
+                <div class="action-icons inline">
+                    <a :href="route('deal.edit', {'deal': deal.id})" v-if="visitor.id == deal.author_id || can('editAnyDeal')"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a :href="route('deal.approve', {'deal': deal.id})" v-if="isMember(members, visitor)"><i class="fa-solid fa-square-check"></i></a>
+                </div>
             </div>
         </template>
 
@@ -40,7 +54,7 @@ function listUsernames(members) {
                 <div class="deal-information">
                     <span class="deal-information--status block">Status: {{ deal.status }}</span>
                     <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
-                    <span class="deal-information--price block">Price: {{ deal.price }}</span>
+                    <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
                     <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
                     <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
                     <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
@@ -50,3 +64,11 @@ function listUsernames(members) {
 
     </AuthenticatedLayout>
 </template>
+
+<style lang="scss">
+.action-icons {
+    a+a {
+        margin-left: 0.5em;
+    }
+}
+</style>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Collection;
 
 class Deal extends Model
 {
@@ -26,12 +27,15 @@ class Deal extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * @return Collection
+     */
     public function members() {
         return User::whereIn('id', explode(", ", $this->members_id))->get();
     }
 
     public function isMember(User $user) {
-        return isset($this->members_id, $user->id);
+        return $this->members()->contains($user);
     }
 
 
@@ -39,6 +43,10 @@ class Deal extends Model
         return Attribute::make(
             get: fn ($value, $attributes) => $attributes['value'] . ' ' . $attributes['currency'],
         );
+    }
+
+    public function canView(User $user) {
+        return $user->isAdmin() || $this->author() !== $user || !in_array($user, $this->members());
     }
 }
 

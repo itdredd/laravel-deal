@@ -38,8 +38,7 @@ class DealController extends Controller
         foreach($users as $key=>$user) {
             $user = User::where('name', $user);
             if(!$user || !$user->exists())
-                dd($user);
-                //abort(404);
+                abort(404);
             else {
                 if(!$deal->members_id)
                     $deal->members_id = $user->first()->id;
@@ -55,34 +54,40 @@ class DealController extends Controller
     }
 
     public function list(Request $request) {
+        $visitor = Auth::user();
 
-        $deals = $this->dealRepo->findForUser(Auth::user(), $request->input('status'));
+        if(!$visitor)
+            return redirect()->route('login');
+        else
+            $deals = $this->dealRepo->findForUser($visitor, $request->input('status'));
 
         if ($request->query('type') == 'json')
             return json_encode($deals);
-        else
-            return Inertia::render('Deal/List', [
+
+        return Inertia::render('Deal/List', [
                 'deals' => $deals,
             ]);
 
     }
 
     public function view(Deal $deal) {
-        if (Auth::user()->cannot('view', $deal))
+        $visitor = Auth::user();
+
+        if (!$deal->canView($visitor))
             abort(404);
 
         return Inertia::render('Deal/View', [
             'deal' => $deal,
-            'user' => Auth::user(),
+            'visitor' => $visitor,
             'members' => $deal->members(),
         ]);
 
     }
 
     public function view_edit(Deal $deal) {
-        $user = Auth::user();
+        $visitor = Auth::user();
 
-        if ($user->id != $deal->author_id && !$user->can('editAnyDeal'))
+        if ($visitor->id != $deal->author_id && !$visitor->can('editAnyDeal'))
             abort(404);
 
         return Inertia::render('Deal/Edit', [
@@ -102,6 +107,17 @@ class DealController extends Controller
         $deal->description = $request->input('description');
         $deal->members_id = $request->input('members_id');
         $deal->save();
+
+        return redirect()->route('deal.view', ['deal' => $deal->id]);
+    }
+
+    public function approve(Deal $deal) {
+        $visitor = Auth::user();
+
+        if($deal->isMember($visitor)) {
+            $deal->status = 'open';
+            $deal->save();
+        }
 
         return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
