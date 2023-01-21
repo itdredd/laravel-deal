@@ -5,9 +5,8 @@ namespace App\Policies;
 use App\Models\Deal;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class DealPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -26,12 +25,12 @@ class DealPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Deal  $deal
+     * @param  \App\Models\user  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Deal $deal)
+    public function view(User $user, user $model)
     {
-        return $user->id === $deal->author_id || $deal->isMember($user);
+        //
     }
 
     /**
@@ -42,31 +41,29 @@ class DealPolicy
      */
     public function create(User $user)
     {
-        return false;
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Deal  $deal
+     * @param  \App\Models\user  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Deal $deal)
+    public function update(User $user, user $model)
     {
-        return $user->id === $deal->author_id
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Deal  $deal
+     * @param  \App\Models\user  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Deal $deal)
+    public function delete(User $user, user $model)
     {
         //
     }
@@ -75,10 +72,10 @@ class DealPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Deal  $deal
+     * @param  \App\Models\user  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Deal $deal)
+    public function restore(User $user, user $model)
     {
         //
     }
@@ -87,11 +84,12 @@ class DealPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Deal  $deal
+     * @param  \App\Models\user  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Deal $deal)
+    public function forceDelete(User $user, user $model)
     {
         //
     }
+
 }

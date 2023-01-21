@@ -38,6 +38,7 @@ Route::post('/deal/create', [\App\Http\Controllers\DealController::class, 'creat
 Route::get('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'view_edit'])->name('deal.edit')->whereNumber('deal');
 Route::post('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'edit'])->name('deal.edit')->whereNumber('deal');
 Route::get('/deal/{deal}/approve', [\App\Http\Controllers\DealController::class, 'approve'])->name('deal.approve')->whereNumber('deal');
+Route::get('/deal/{deal}/reject', [\App\Http\Controllers\DealController::class, 'reject'])->name('deal.reject')->whereNumber('deal');
 
 //find
 Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');

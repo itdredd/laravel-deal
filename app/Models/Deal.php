@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 class Deal extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'title',
         'description',
@@ -18,15 +17,20 @@ class Deal extends Model
         'value',
         'currency',
         'members_id',
+        'status',
     ];
 
     protected $with = ['author'];
 
+    public function status() {
+        return $this->status;
+    }
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    // TODO edit to relationship
     /**
      * @return Collection
      */
@@ -38,6 +42,9 @@ class Deal extends Model
         return $this->members()->contains($user);
     }
 
+    public function isOpen() {
+        return $this->status === 'open';
+    }
 
     protected function price() : Attribute {
         return Attribute::make(
@@ -45,9 +52,6 @@ class Deal extends Model
         );
     }
 
-    public function canView(User $user) {
-        return $user->isAdmin() || $this->author() !== $user || !in_array($user, $this->members());
-    }
 }
 
 

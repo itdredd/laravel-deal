@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Policies\DealPolicy;
 use App\Repository\DealRepository;
 use App\Http\Requests\DealPostRequest;
 use App\Models\Deal;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Gate;
 
 class DealController extends Controller
 {
@@ -73,8 +75,7 @@ class DealController extends Controller
     public function view(Deal $deal) {
         $visitor = Auth::user();
 
-        if (!$deal->canView($visitor))
-            abort(404);
+        $this->authorize('view', $deal);
 
         return Inertia::render('Deal/View', [
             'deal' => $deal,
@@ -83,7 +84,6 @@ class DealController extends Controller
         ]);
 
     }
-
     public function view_edit(Deal $deal) {
         $visitor = Auth::user();
 
@@ -114,13 +114,21 @@ class DealController extends Controller
     public function approve(Deal $deal) {
         $visitor = Auth::user();
 
-        if($deal->isMember($visitor)) {
+        if($deal->isMember($visitor) && $deal->status === 'awaiting') {
             $deal->status = 'open';
             $deal->save();
         }
 
         return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
+    public function reject(Deal $deal) {
+        $visitor = Auth::user();
 
+        if($deal->isMember($visitor) && $deal->status === 'awaiting') {
+            $deal->status = 'rejected';
+            $deal->save();
+        }
 
+        return redirect()->route('deal.list');
+    }
 }

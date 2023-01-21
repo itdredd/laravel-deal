@@ -8,7 +8,6 @@ import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import CurrencySelect from '@/Components/CurrencySelect.vue';
 import StatusSelect from '@/Components/StatusSelect.vue';
-import Checkbox from '@/Components/Checkbox.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 defineProps({
@@ -83,7 +82,7 @@ const submit = () => {
                         <StatusSelect
                             id="status"
                             name="status"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full  rounded-md shadow-sm"
                             required
                             autofocus
                             :value="deal.status"

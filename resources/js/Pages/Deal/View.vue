@@ -23,11 +23,9 @@ function listUsernames(members) {
     }
     return list;
 }
-
 function price(value, currency) {
     return value + ' ' + currency;
 }
-
 function isMember(members, visitor) {
     const idList = members.map(x => x.id);
     return idList.includes(visitor.id);
@@ -44,7 +42,8 @@ function isMember(members, visitor) {
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto inline mr-2">Deal: {{deal.title}}</h2>
                 <div class="action-icons inline">
                     <a :href="route('deal.edit', {'deal': deal.id})" v-if="visitor.id == deal.author_id || can('editAnyDeal')"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a :href="route('deal.approve', {'deal': deal.id})" v-if="isMember(members, visitor)"><i class="fa-solid fa-square-check"></i></a>
+                    <a :href="route('deal.approve', {'deal': deal.id})" v-if="deal.status === 'awaiting' && isMember(members, visitor)"><i class="fa-solid fa-square-check"></i></a>
+                    <a :href="route('deal.reject', {'deal': deal.id})" v-if="deal.status === 'awaiting' && isMember(members, visitor)"><i class="fa-solid fa-square-xmark"></i></a>
                 </div>
             </div>
         </template>

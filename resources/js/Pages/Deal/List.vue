@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DealList from '@/Components/DealList.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import StatusSelect from '@/Components/StatusSelect.vue';
 import {defineProps, reactive, toRefs, ref, toRef} from "vue";
 
 const props = defineProps({
@@ -29,12 +30,10 @@ const props = defineProps({
                 <div class="filters">
                     <form method="get" class="flex">
                         <div class="">
-                            <select id="status" name="status" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-48 p-2.5">
-                                <option value="" selected>Choose a status</option>
-                                <option value="open"><a :href="route('deal.list', {'status': 'open'})">Open</a></option>
-                                <option value="close">Close</option>
-                                <option value="awaiting">Awaiting</option>
-                            </select>
+                            <StatusSelect
+                                class="block w-48 p-2.5"
+                                id="status" name="status"
+                                />
                         </div>
 
                         <PrimaryButton class="ml-4">
