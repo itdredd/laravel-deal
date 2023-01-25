@@ -38,7 +38,7 @@ const showingNavigationDropdown = ref(false);
                                     Deal
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" v-if="is('admin')">
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" v-if="$page.props.auth.user.is_admin">
                                 <NavLink href="/permissions">
                                     Permissions
                                 </NavLink>

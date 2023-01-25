@@ -41,7 +41,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class UserPolicy
      */
     public function delete(User $user, user $model)
     {
-        //
+        return false;
     }
 
     /**
@@ -91,5 +91,6 @@ class UserPolicy
     {
         //
     }
+
 
 }

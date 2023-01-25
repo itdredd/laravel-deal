@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Deal;
+use     App\Models\Deal;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -42,7 +42,7 @@ class DealPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -54,9 +54,7 @@ class DealPolicy
      */
     public function update(User $user, Deal $deal)
     {
-        return $user->id === $deal->author_id
-            ? Response::allow()
-            : Response::denyAsNotFound();
+        return $user->id === $deal->author_id;
     }
 
     /**
@@ -68,7 +66,7 @@ class DealPolicy
      */
     public function delete(User $user, Deal $deal)
     {
-        //
+
     }
 
     /**
@@ -93,5 +91,31 @@ class DealPolicy
     public function forceDelete(User $user, Deal $deal)
     {
         //
+    }
+
+    /**
+     * Determine whether the user can approve status the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Deal  $deal
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function approve(User $user, Deal $deal) {
+        return $deal->status === 'awaiting' && $deal->isMember($user);
+    }
+
+    /**
+     * Determine whether the user can reject status the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Deal  $deal
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function reject(User $user, Deal $deal) {
+        return $deal->status === 'awaiting' && $deal->isMember($user);
+    }
+
+    public function postReply(User $user, Deal $deal) {
+        return $deal->status === 'open' && ($deal->isMember($user) || $deal->author_id === $user->id);
     }
 }

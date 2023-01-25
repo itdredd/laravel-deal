@@ -25,9 +25,12 @@ class Deal extends Model
     public function status() {
         return $this->status;
     }
-    public function author()
-    {
+    public function author() {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
     }
 
     // TODO edit to relationship

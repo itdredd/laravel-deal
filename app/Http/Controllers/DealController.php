@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Policies\DealPolicy;
 use App\Repository\DealRepository;
 use App\Http\Requests\DealPostRequest;
@@ -14,26 +15,31 @@ use Illuminate\Support\Facades\Gate;
 
 class DealController extends Controller
 {
-
     private DealRepository $dealRepo;
 
     public function __construct(DealRepository $dealRepo) {
         $this->dealRepo = $dealRepo;
     }
 
-
     public function store(Request $request) {
+        $visitor = Auth::user();
+
+        $this->authorize('create', Deal::class);
 
         return Inertia::render('Deal/Create');
     }
 
     public function create(DealPostRequest $request) {
+        $visitor = Auth::user();
+
+        $this->authorize('create', Deal::class);
+
         $deal = new Deal;
         $deal->title = $request->input('title');
         $deal->value = $request->input('value');
         $deal->description = $request->input('description');
         $deal->currency = $request->input('currency');
-        $deal->author_id = Auth::user()->id;
+        $deal->author_id = $visitor->id;
         $deal->status = 'awaiting';
 
         $users = explode(',', $request->input('members_id'));
@@ -60,8 +66,8 @@ class DealController extends Controller
 
         if(!$visitor)
             return redirect()->route('login');
-        else
-            $deals = $this->dealRepo->findForUser($visitor, $request->input('status'));
+
+        $deals = $this->dealRepo->findForUser($visitor, $request->input('status'));
 
         if ($request->query('type') == 'json')
             return json_encode($deals);
@@ -69,7 +75,6 @@ class DealController extends Controller
         return Inertia::render('Deal/List', [
                 'deals' => $deals,
             ]);
-
     }
 
     public function view(Deal $deal) {
@@ -80,6 +85,7 @@ class DealController extends Controller
         return Inertia::render('Deal/View', [
             'deal' => $deal,
             'visitor' => $visitor,
+            'messages' => $deal->messages,
             'members' => $deal->members(),
         ]);
 
@@ -87,8 +93,7 @@ class DealController extends Controller
     public function view_edit(Deal $deal) {
         $visitor = Auth::user();
 
-        if ($visitor->id != $deal->author_id && !$visitor->can('editAnyDeal'))
-            abort(404);
+        $this->authorize('update', $deal);
 
         return Inertia::render('Deal/Edit', [
             'deal' => $deal,
@@ -98,8 +103,7 @@ class DealController extends Controller
     public function edit(Deal $deal, Request $request) {
         $user = Auth::user();
 
-        if ($user->id != $deal->author_id && !$user->can('editAnyDeal'))
-            abort(404);
+        $this->authorize('update', $deal);
 
         $deal->status = $request->input('status');
         $deal->title = $request->input('title');
@@ -114,21 +118,42 @@ class DealController extends Controller
     public function approve(Deal $deal) {
         $visitor = Auth::user();
 
-        if($deal->isMember($visitor) && $deal->status === 'awaiting') {
-            $deal->status = 'open';
-            $deal->save();
-        }
+        $this->authorize('approve', $deal);
 
-        return redirect()->route('deal.view', ['deal' => $deal->id]);
+        $deal->status = 'open';
+        $deal->save();
+
+        return redirect()->route('deal.view', ['deal' => $deal]);
     }
     public function reject(Deal $deal) {
         $visitor = Auth::user();
 
-        if($deal->isMember($visitor) && $deal->status === 'awaiting') {
-            $deal->status = 'rejected';
-            $deal->save();
-        }
+        $this->authorize('reject', $deal);
+
+        $deal->status = 'rejected';
+        $deal->save();
 
         return redirect()->route('deal.list');
+    }
+    public function postReply(Deal $deal, Request $request) {
+        $visitor = Auth::user();
+
+        $this->authorize('postReply', $deal);
+
+        $message = new Message();
+        $message->deal_id = $deal->id;
+        $message->user_id = $visitor->id;
+        $message->status = 'visible';
+        $message->message = $request->input('message');
+
+        $message->save();
+
+        return redirect()->route('deal.view', ['deal' => $deal]);
+
+
+/*        $table->unsignedInteger('deal_id');
+        $table->unsignedInteger('user_id');
+        $table->longText('message');
+        $table->enum('status', ['visible', 'deleted']);;*/
     }
 }

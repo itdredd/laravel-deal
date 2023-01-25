@@ -48,13 +48,16 @@ class User extends Authenticatable
 
     protected $with = ['roles'];
 
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
     public function deals()
     {
         return $this->hasMany(Deal::class, 'author_id');
     }
 
     public function isAdmin() {
-        return $this->hasRole('admin');
+        return $this->is_admin;
     }
 
     public function getAvatarUrl() {
