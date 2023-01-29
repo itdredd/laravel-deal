@@ -41,6 +41,8 @@ Route::get('/deal/{deal}/approve', [\App\Http\Controllers\DealController::class,
 Route::get('/deal/{deal}/reject', [\App\Http\Controllers\DealController::class, 'reject'])->name('deal.reject')->whereNumber('deal');
 Route::post('/deal/{deal}/post-reply', [\App\Http\Controllers\DealController::class, 'postReply'])->name('deal.post-reply')->whereNumber('deal');
 
+Route::get('/message/deal/{deal}', [\App\Http\Controllers\MessageController::class, 'getDealMessages'])->name('message.deal-message')->whereNumber('deal');
+
 //find
 Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');
 Route::post('/users/find', [\App\Http\Controllers\UserController::class, 'findUser']);

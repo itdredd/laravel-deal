@@ -7,7 +7,6 @@ import MessageInput from "@/Components/MessageInput.vue";
 defineProps({
     deal: Object,
     visitor: Object,
-    messages: Object,
     members: Object,
 });
 
@@ -66,8 +65,8 @@ function price(value, currency) {
                 </div>
 
                 <div class="messages">
-                    <MessageList :messages="messages"/>
-                    <MessageInput :deal="deal"/>
+                    <MessageList :deal="deal"/>
+                    <MessageInput :deal="deal" class="mt-2"/>
                 </div>
             </div>
         </div>

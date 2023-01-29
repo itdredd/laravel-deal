@@ -17,8 +17,9 @@ class DealController extends Controller
 {
     private DealRepository $dealRepo;
 
-    public function __construct(DealRepository $dealRepo) {
+    public function __construct(DealRepository $dealRepo, Deal $deal) {
         $this->dealRepo = $dealRepo;
+        $this->deal = $deal;
     }
 
     public function store(Request $request) {
@@ -85,7 +86,6 @@ class DealController extends Controller
         return Inertia::render('Deal/View', [
             'deal' => $deal,
             'visitor' => $visitor,
-            'messages' => $deal->messages,
             'members' => $deal->members(),
         ]);
 
@@ -150,10 +150,5 @@ class DealController extends Controller
 
         return redirect()->route('deal.view', ['deal' => $deal]);
 
-
-/*        $table->unsignedInteger('deal_id');
-        $table->unsignedInteger('user_id');
-        $table->longText('message');
-        $table->enum('status', ['visible', 'deleted']);;*/
     }
 }

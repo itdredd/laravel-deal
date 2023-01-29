@@ -116,6 +116,6 @@ class DealPolicy
     }
 
     public function postReply(User $user, Deal $deal) {
-        return $deal->status === 'open' && ($deal->isMember($user) || $deal->author_id === $user->id);
+        return $deal->status !== 'rejected' && $deal->isMember($user);
     }
 }
