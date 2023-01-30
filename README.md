@@ -18,4 +18,4 @@ This project was created primarily to gain experience with Laravel. It turned ou
 ![Messages](https://i.imgur.com/OOWkkcw.png)
 
 ## Information
-In this case, I am using Laravel+Vue. Also used by Laravel Authentication for access control, FontAwesome (icons), TailWind, Axios (for AJAX queries) and SCSS.
+In this case, I am using Laravel+Vue with Laravel Sail. Also used by Laravel Authentication for access control, FontAwesome (icons), TailWind, Axios (for AJAX queries) and SCSS.
