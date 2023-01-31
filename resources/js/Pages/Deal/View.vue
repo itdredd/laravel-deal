@@ -53,22 +53,18 @@ function price(value, currency) {
             </div>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="deal-information mb-8">
-                    <span class="deal-information--status block">Status: {{ deal.status }}</span>
-                    <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
-                    <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
-                    <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
-                    <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
-                    <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
-                </div>
 
-                <div class="messages">
-                    <MessageList :deal="deal"/>
-                    <MessageInput :deal="deal" class="mt-2"/>
-                </div>
-            </div>
+        <div class="deal-information mb-8">
+            <span class="deal-information--status block">Status: {{ deal.status }}</span>
+            <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
+            <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
+            <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
+            <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
+            <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
+        </div>
+
+        <div class="messages">
+            <MessageList :deal="deal"/>
         </div>
 
     </AuthenticatedLayout>

@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Message;
-use App\Policies\DealPolicy;
-use App\Repository\DealRepository;
 use App\Http\Requests\DealPostRequest;
 use App\Models\Deal;
 use App\Models\User;
+use App\Repository\DealRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Gate;
 
 class DealController extends Controller
 {
-    private DealRepository $dealRepo;
+    protected DealRepository $dealRepo;
 
-    public function __construct(DealRepository $dealRepo, Deal $deal) {
+    public function __construct(DealRepository $dealRepo) {
         $this->dealRepo = $dealRepo;
-        $this->deal = $deal;
     }
 
     public function store(Request $request) {
@@ -35,28 +31,9 @@ class DealController extends Controller
 
         $this->authorize('create', Deal::class);
 
-        $deal = new Deal;
-        $deal->title = $request->input('title');
-        $deal->value = $request->input('value');
-        $deal->description = $request->input('description');
-        $deal->currency = $request->input('currency');
-        $deal->author_id = $visitor->id;
-        $deal->status = 'awaiting';
+        $creatorService = new \App\Services\Deal\Creator();
 
-        $users = explode(',', $request->input('members_id'));
-        foreach($users as $key=>$user) {
-            $user = User::where('name', $user);
-            if(!$user || !$user->exists())
-                abort(404);
-            else {
-                if(!$deal->members_id)
-                    $deal->members_id = $user->first()->id;
-                else
-                    $deal->members_id = $deal->members_id . ", " . $user->first()->id;
-            }
-
-        }
-
+        $deal = $creatorService->create($request->input());
         $deal->save();
 
         return redirect()->route('deal.view', ['deal' => $deal->id]);
@@ -65,7 +42,7 @@ class DealController extends Controller
     public function list(Request $request) {
         $visitor = Auth::user();
 
-        if(!$visitor)
+        if (!$visitor)
             return redirect()->route('login');
 
         $deals = $this->dealRepo->findForUser($visitor, $request->input('status'));
@@ -74,8 +51,8 @@ class DealController extends Controller
             return json_encode($deals);
 
         return Inertia::render('Deal/List', [
-                'deals' => $deals,
-            ]);
+            'deals' => $deals,
+        ]);
     }
 
     public function view(Deal $deal) {
@@ -88,8 +65,8 @@ class DealController extends Controller
             'visitor' => $visitor,
             'members' => $deal->members(),
         ]);
-
     }
+
     public function view_edit(Deal $deal) {
         $visitor = Auth::user();
 
@@ -125,6 +102,7 @@ class DealController extends Controller
 
         return redirect()->route('deal.view', ['deal' => $deal]);
     }
+
     public function reject(Deal $deal) {
         $visitor = Auth::user();
 
@@ -135,20 +113,15 @@ class DealController extends Controller
 
         return redirect()->route('deal.list');
     }
+
     public function postReply(Deal $deal, Request $request) {
         $visitor = Auth::user();
 
         $this->authorize('postReply', $deal);
 
-        $message = new Message();
-        $message->deal_id = $deal->id;
-        $message->user_id = $visitor->id;
-        $message->status = 'visible';
-        $message->message = $request->input('message');
+        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
 
+        $message = $creatorService->create($request->input('message'));
         $message->save();
-
-        return redirect()->route('deal.view', ['deal' => $deal]);
-
     }
 }

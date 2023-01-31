@@ -10,7 +10,6 @@ class UserController extends Controller
 {
     public function store() {
         return Inertia::render('Dev/FindUser');
-
     }
 
     public function findUser(Request $request) {

@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/inertia-vue3';
+import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DealList from '@/Components/DealList.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -25,25 +25,21 @@ const props = defineProps({
             </div>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="filters">
-                    <form method="get" class="flex">
-                        <div class="">
-                            <StatusSelect
-                                class="block w-48 p-2.5"
-                                id="status" name="status"
-                                />
-                        </div>
-
-                        <PrimaryButton class="ml-4">
-                            Find
-                        </PrimaryButton>
-                    </form>
+        <div class="filters">
+            <form method="get" class="flex">
+                <div class="">
+                    <StatusSelect
+                        class="block w-48 p-2.5"
+                        id="status" name="status"
+                    />
                 </div>
-                <DealList :deals="deals"/>
-            </div>
+
+                <PrimaryButton class="ml-4">
+                    Find
+                </PrimaryButton>
+            </form>
         </div>
+        <DealList :deals="deals"/>
 
     </AuthenticatedLayout>
 </template>

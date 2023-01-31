@@ -1,6 +1,6 @@
 <template>
     <div class="deal-list">
-        <div class="deal bg-white my-2 p-4 flex justify-between" v-for="deal in deals" v-if="deals">
+        <div class="deal bg-white my-2 p-4 flex justify-between rounded-lg" v-for="deal in deals" v-if="deals">
             <div class="information-main my-auto">
                 <a :href="route('deal.view', {'id': deal.id})" class="title">{{ deal.title }}</a>
             </div>

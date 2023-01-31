@@ -14,11 +14,10 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Inertia\Response
      */
-    public function edit(Request $request)
-    {
+    public function edit(Request $request) {
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -28,11 +27,10 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      *
-     * @param  \App\Http\Requests\ProfileUpdateRequest  $request
+     * @param \App\Http\Requests\ProfileUpdateRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProfileUpdateRequest $request)
-    {
+    public function update(ProfileUpdateRequest $request) {
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -47,11 +45,10 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
-    {
+    public function destroy(Request $request) {
         $request->validate([
             'password' => ['required', 'current-password'],
         ]);
@@ -69,10 +66,10 @@ class ProfileController extends Controller
     }
 
     public function avatar(Request $request) {
-        if($request->hasFile('avatar')){
+        if ($request->hasFile('avatar')) {
             $filename = $request->avatar->getClientOriginalName();
-            $request->avatar->storeAs('avatars',$filename,'public');
-            Auth()->user()->update(['avatar'=>$filename]);
+            $request->avatar->storeAs('avatars', $filename, 'public');
+            Auth()->user()->update(['avatar' => $filename]);
         }
         return redirect()->back();
     }
