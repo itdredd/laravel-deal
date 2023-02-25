@@ -39,7 +39,9 @@ Route::get('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'v
 Route::post('/deal/{deal}/edit', [\App\Http\Controllers\DealController::class, 'edit'])->name('deal.edit')->whereNumber('deal');
 Route::get('/deal/{deal}/approve', [\App\Http\Controllers\DealController::class, 'approve'])->name('deal.approve')->whereNumber('deal');
 Route::get('/deal/{deal}/reject', [\App\Http\Controllers\DealController::class, 'reject'])->name('deal.reject')->whereNumber('deal');
+Route::get('/deal/{deal}/close', [\App\Http\Controllers\DealController::class, 'close'])->name('deal.close')->whereNumber('deal');
 Route::post('/deal/{deal}/post-reply', [\App\Http\Controllers\DealController::class, 'postReply'])->name('deal.post-reply')->whereNumber('deal');
+Route::get('/deal/{deal}/update-balance', [\App\Http\Controllers\DealController::class, 'updateBalance'])->name('deal.update-balance')->whereNumber('deal');
 
 Route::get('/message/deal/{deal}', [\App\Http\Controllers\MessageController::class, 'getDealMessages'])->name('message.deal-message')->whereNumber('deal');
 Route::get('/message/{message}/remove', [\App\Http\Controllers\MessageController::class, 'remove'])->name('message.remove')->whereNumber('message');

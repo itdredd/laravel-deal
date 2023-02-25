@@ -31,7 +31,7 @@ class DealPolicy
      */
     public function view(User $user, Deal $deal)
     {
-        return $user->id === $deal->author_id || $deal->isMember($user);
+        return $user->id===$deal->author_id || $deal->isMember($user);
     }
 
     /**
@@ -54,7 +54,7 @@ class DealPolicy
      */
     public function update(User $user, Deal $deal)
     {
-        return $user->id === $deal->author_id;
+        return $user->id===$deal->author_id;
     }
 
     /**
@@ -66,7 +66,6 @@ class DealPolicy
      */
     public function delete(User $user, Deal $deal)
     {
-
     }
 
     /**
@@ -100,8 +99,9 @@ class DealPolicy
      * @param  \App\Models\Deal  $deal
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function approve(User $user, Deal $deal) {
-        return $deal->status === 'awaiting' && $deal->isMember($user);
+    public function approve(User $user, Deal $deal)
+    {
+        return $deal->status==='awaiting' && $deal->isMember($user);
     }
 
     /**
@@ -111,11 +111,18 @@ class DealPolicy
      * @param  \App\Models\Deal  $deal
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function reject(User $user, Deal $deal) {
+    public function reject(User $user, Deal $deal)
+    {
         return $deal->status === 'awaiting' && $deal->isMember($user);
     }
 
-    public function postReply(User $user, Deal $deal) {
+    public function postReply(User $user, Deal $deal)
+    {
         return $deal->status !== 'rejected' && $deal->isMember($user);
+    }
+
+    public function close(User $user, Deal $deal)
+    {
+        return $deal->status === 'open' && $deal->author() === $user;
     }
 }

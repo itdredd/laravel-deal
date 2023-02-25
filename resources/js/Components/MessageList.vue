@@ -14,17 +14,18 @@ onMounted(() => {
   updateMessages();
 })
 
-setInterval(updateMessages, 10000);
+setInterval(updateMessages, 10000); // TODO ?
 
 function convertTime(time) {
   let options = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
   return new Date(time).toLocaleString([], options);
 }
 
-function updateMessages() {
-  axios.get('/message/deal/' + props.deal.id)
+async function updateMessages() {
+  await axios.get('/message/deal/' + props.deal.id)
       .then(function (response) {
-        messages.value = response.data;
+        if(messages.value != response.data)
+          messages.value = response.data;
       })
       .catch(function (error) {
         // handle error
@@ -73,8 +74,8 @@ function sentMessage(e) {
   </div>
   <div class="message-input mt-2">
     <form id="message" method="POST" :action="route('deal.post-reply', {deal: deal})" @submit="sentMessage">
-      <TextArea class="w-full" name="message" placeholder="Enter your message" :disabled="deal.status === 'rejected'"/>
-      <PrimaryButton class="block" :disabled="deal.status === 'rejected'">
+      <TextArea class="w-full" name="message" placeholder="Enter your message" :disabled="deal.status === 'rejected' || deal.status === 'close'"/>
+      <PrimaryButton class="block" :disabled="deal.status === 'rejected' || deal.status === 'close'">
         Sent
       </PrimaryButton>
       <input type="hidden" name="_token" :value="csrf">

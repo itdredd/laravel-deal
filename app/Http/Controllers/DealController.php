@@ -14,11 +14,13 @@ class DealController extends Controller
 {
     protected DealRepository $dealRepo;
 
-    public function __construct(DealRepository $dealRepo) {
+    public function __construct(DealRepository $dealRepo)
+    {
         $this->dealRepo = $dealRepo;
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $visitor = Auth::user();
 
         $this->authorize('create', Deal::class);
@@ -26,7 +28,8 @@ class DealController extends Controller
         return Inertia::render('Deal/Create');
     }
 
-    public function create(DealPostRequest $request) {
+    public function create(DealPostRequest $request)
+    {
         $visitor = Auth::user();
 
         $this->authorize('create', Deal::class);
@@ -39,45 +42,51 @@ class DealController extends Controller
         return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
 
-    public function list(Request $request) {
+    public function list(Request $request)
+    {
         $visitor = Auth::user();
 
-        if (!$visitor)
+        if (!$visitor) {
             return redirect()->route('login');
+        }
 
         $deals = $this->dealRepo->findForUser($visitor, $request->input('status'));
 
-        if ($request->query('type') == 'json')
+        if ($request->query('type')=='json') {
             return json_encode($deals);
+        }
 
         return Inertia::render('Deal/List', [
-            'deals' => $deals,
+                'deals' => $deals,
         ]);
     }
 
-    public function view(Deal $deal) {
+    public function view(Deal $deal)
+    {
         $visitor = Auth::user();
 
         $this->authorize('view', $deal);
 
         return Inertia::render('Deal/View', [
-            'deal' => $deal,
-            'visitor' => $visitor,
-            'members' => $deal->members(),
+                'deal' => $deal,
+                'visitor' => $visitor,
+                'members' => $deal->members(),
         ]);
     }
 
-    public function view_edit(Deal $deal) {
+    public function view_edit(Deal $deal)
+    {
         $visitor = Auth::user();
 
         $this->authorize('update', $deal);
 
         return Inertia::render('Deal/Edit', [
-            'deal' => $deal,
+                'deal' => $deal,
         ]);
     }
 
-    public function edit(Deal $deal, Request $request) {
+    public function edit(Deal $deal, Request $request)
+    {
         $user = Auth::user();
 
         $this->authorize('update', $deal);
@@ -92,7 +101,8 @@ class DealController extends Controller
         return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
 
-    public function approve(Deal $deal) {
+    public function approve(Deal $deal)
+    {
         $visitor = Auth::user();
 
         $this->authorize('approve', $deal);
@@ -103,7 +113,8 @@ class DealController extends Controller
         return redirect()->route('deal.view', ['deal' => $deal]);
     }
 
-    public function reject(Deal $deal) {
+    public function reject(Deal $deal)
+    {
         $visitor = Auth::user();
 
         $this->authorize('reject', $deal);
@@ -114,7 +125,8 @@ class DealController extends Controller
         return redirect()->route('deal.list');
     }
 
-    public function postReply(Deal $deal, Request $request) {
+    public function postReply(Deal $deal, Request $request)
+    {
         $visitor = Auth::user();
 
         $this->authorize('postReply', $deal);
@@ -123,5 +135,34 @@ class DealController extends Controller
 
         $message = $creatorService->create($request->input('message'));
         $message->save();
+    }
+
+    public function updateBalance(Deal $deal) // simulate
+    {
+        $deal->balance = $deal->value;
+        $deal->save();
+
+        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
+        $message = $creatorService->create("The transaction balance was replenished by $deal->balance $deal->currency.");
+        $creatorService->setUser(User::find(1));
+        $message->save();
+
+        return redirect()->route('deal.view', ['deal' => $deal]);
+    }
+
+    public function close(Deal $deal) {
+        $visitor = Auth::user();
+
+        $this->authorize('close', $deal);
+
+        $deal->status = 'close';
+        $deal->save();
+
+        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
+        $message = $creatorService->create("The deal was completed by $visitor->name.");
+        $creatorService->setUser(User::find(1));
+        $message->save();
+
+        return redirect()->route('deal.list');
     }
 }

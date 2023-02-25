@@ -18,6 +18,7 @@ class Deal extends Model
         'currency',
         'members_id',
         'status',
+        'balance'
     ];
 
     protected $with = ['author'];

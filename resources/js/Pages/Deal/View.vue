@@ -2,7 +2,7 @@
 import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MessageList from '@/Components/MessageList.vue';
-import MessageInput from "@/Components/MessageInput.vue";
+import LinkButton from "@/Components/LinkButton.vue";
 
 defineProps({
     deal: Object,
@@ -54,13 +54,19 @@ function price(value, currency) {
         </template>
 
 
-        <div class="deal-information mb-8">
+        <div class="deal-information mb-4">
             <span class="deal-information--status block">Status: {{ deal.status }}</span>
             <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
             <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
+            <span class="deal-information--price block">Balance: {{ price(deal.balance, deal.currency) }}</span>
             <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
             <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
             <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
+        </div>
+        <div class="deal-actions mb-8">
+          <LinkButton v-if="deal.status === 'open' && visitor.id === deal.author.id" :href="route('deal.close', {'deal': deal})">
+            Close
+          </LinkButton>
         </div>
 
         <div class="messages">

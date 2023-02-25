@@ -31,6 +31,7 @@ class Creator
     {
         $this->deal->title = $title;
         $this->deal->description = $description;
+        $this->deal->status = 'awaiting';
     }
 
     protected function setPrice(string $currency, int $value)
