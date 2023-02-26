@@ -33,6 +33,7 @@ class DealController extends Controller
         $visitor = Auth::user();
 
         $this->authorize('create', Deal::class);
+        //dd($request);
 
         $creatorService = new \App\Services\Deal\Creator();
 

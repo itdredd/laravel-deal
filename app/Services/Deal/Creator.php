@@ -43,7 +43,8 @@ class Creator
 
     protected function setMembers(string $members)
     {
-        $users = User::whereIn('name', [$members])->get(); // TODO check this way on invalid data
+        $members = explode(", ", $members);
+        $users = User::whereIn('name', $members)->get(); // TODO check this way on invalid data
 
         foreach ($users as $user) { // TODO bruh?
             if (!$this->deal->members_id) {
