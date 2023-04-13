@@ -24,6 +24,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "laravel-permission-to-vuejs": "^3.0.1"
+        "laravel-echo": "^1.15.0",
+        "laravel-permission-to-vuejs": "^3.0.1",
+        "pusher-js": "^8.0.2"
     }
 }
