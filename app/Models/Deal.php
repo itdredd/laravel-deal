@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Collection;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $description
+ * @property int $author_id
+ * @property int $value
+ * @property string $currency
+ * @property string $members_id
+ * @property int $created_at
+ * @property int $updated_at
+ * @property string $status
+ * @property int $balance
+ */
 class Deal extends Model
 {
     use HasFactory;
