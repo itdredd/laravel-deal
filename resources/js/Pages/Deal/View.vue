@@ -8,6 +8,7 @@ defineProps({
     deal: Object,
     visitor: Object,
     members: Object,
+    messages: Object,
 });
 
 function convertTime(time) {
@@ -31,6 +32,7 @@ function price(value, currency) {
 }
 
 </script>
+
 
 <template>
     <Head :title="'Deal: ' + deal.title"/>
@@ -70,7 +72,7 @@ function price(value, currency) {
         </div>
 
         <div class="messages">
-            <MessageList :deal="deal"/>
+            <MessageList :deal="deal" :messages="messages"/>
         </div>
 
     </AuthenticatedLayout>

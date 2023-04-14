@@ -37,3 +37,5 @@ class MessageController extends Controller
         return redirect()->route('deal.view', ['deal' => $deal]);
     }
 }
+
+

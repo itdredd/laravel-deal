@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Http\Requests\DealPostRequest;
 use App\Models\Deal;
+use App\Models\Message;
 use App\Models\User;
 use App\Repository\DealRepository;
 use Illuminate\Http\Request;
@@ -72,6 +74,7 @@ class DealController extends Controller
                 'deal' => $deal,
                 'visitor' => $visitor,
                 'members' => $deal->members(),
+                'messages' => $deal->messages,
         ]);
     }
 
@@ -135,7 +138,10 @@ class DealController extends Controller
         $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
 
         $message = $creatorService->create($request->input('message'));
+        $creatorService->setUser($visitor);
         $message->save();
+
+        broadcast(new MessageSent($message))->toOthers();
     }
 
     public function updateBalance(Deal $deal) // simulate
