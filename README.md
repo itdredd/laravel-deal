@@ -11,11 +11,11 @@ This project was created primarily to gain experience with Laravel. It turned ou
 
 ![Deal page](https://i.imgur.com/uHKQgON.png)
 
-## Dialog system (AJAX)
+## Dialog system (pusher)
 
 ![Messages](https://i.imgur.com/JRPYvbu.png)
 
 ![Messages](https://i.imgur.com/OOWkkcw.png)
 
 ## Information
-In this case, I am using Laravel+Vue with Laravel Sail. Also used by Laravel Authentication for access control, FontAwesome (icons), TailWind, Axios (for AJAX queries) and SCSS.
+In this case, I am using Laravel+Vue with Laravel Sail. Also used by Laravel Authentication for access control, FontAwesome (icons), TailWind, for chat system im use pusher, axios and laravel broadcasting's.
