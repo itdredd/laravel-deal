@@ -141,7 +141,7 @@ class DealController extends Controller
         $creatorService->setUser($visitor);
         $message->save();
 
-        broadcast(new MessageSent($message))->toOthers();
+        MessageSent::dispatch($message);
     }
 
     public function updateBalance(Deal $deal) // simulate

@@ -1,51 +1,32 @@
 <script setup>
 
-import {defineProps, onMounted, ref} from "vue";
+import {defineProps} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 
 const props = defineProps({
   deal: Object,
+  messages: Object,
 });
 
-let messages = ref([]);
-
-onMounted(() => {
-  updateMessages();
-})
-
-setInterval(updateMessages, 10000); // TODO ?
+Echo.private('deal-message.' + props.deal.id)
+    .listen('MessageSent', (e) => {
+        console.log(e);
+        props.messages.push(e.message);
+    });
 
 function convertTime(time) {
   let options = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'};
   return new Date(time).toLocaleString([], options);
 }
 
-async function updateMessages() {
-  await axios.get('/message/deal/' + props.deal.id)
-      .then(function (response) {
-        if(messages.value != response.data)
-          messages.value = response.data;
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-}
-
 function sentMessage(e) {
-  e.preventDefault();
-  let formData = new FormData(e.target);
-
-  axios.post('/deal/' + props.deal.id + '/post-reply', {
-    _token: formData.get('_token'),
-    message: formData.get('message'),
-  }).then(function (response) {
-    updateMessages();
-  })
-      .catch(function (error) {
-        console.log(error)
-      });
+    e.preventDefault();
+    let formData = new FormData(e.target);
+    axios.post('/deal/' + props.deal.id + '/post-reply', {
+        _token: formData.get('_token'),
+        message: formData.get('message'),
+    });
 }
 
 </script>
@@ -73,7 +54,7 @@ function sentMessage(e) {
     </div>
   </div>
   <div class="message-input mt-2">
-    <form id="message" method="POST" :action="route('deal.post-reply', {deal: deal})" @submit="sentMessage">
+    <form id="message" method="POST" @submit="sentMessage">
       <TextArea class="w-full" name="message" placeholder="Enter your message" :disabled="deal.status === 'rejected' || deal.status === 'close'"/>
       <PrimaryButton class="block" :disabled="deal.status === 'rejected' || deal.status === 'close'">
         Sent
