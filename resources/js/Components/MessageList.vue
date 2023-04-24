@@ -5,7 +5,8 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 import {TailwindPagination} from 'laravel-vue-pagination';
 
-const props = defineProps({
+const props = defineProps(
+    {
     deal: Object,
     messages: Object,
 });
@@ -14,7 +15,7 @@ const messages = ref(props.messages);
 
 Echo.private('deal-message.' + props.deal.id)
     .listen('MessageSent', (e) => {
-        props.messages.data.push(e.message);
+        messages.value.data.push(e.message);
     });
 
 function convertTime(time) {
@@ -34,15 +35,19 @@ function sentMessage(e) {
 const getResults = async (page = 1) => {
     axios.get(`http://localhost/deal/${props.deal.id}?page=${page}`)
         .then(function (response) {
-
             messages.value = response.data.messages
-
         });
 }
 </script>
 
 <template>
     <div class="message-list">
+        <div class="pagination text-center mb-2">
+            <TailwindPagination class="center"
+                                :data="messages"
+                                @pagination-change-page="getResults"
+            />
+        </div>
         <div class="message bg-white rounded-md p-4" v-for="message in messages.data" :id="message.id"
              v-if="messages.data.length">
             <div class="message-top-information flex justify-between">
