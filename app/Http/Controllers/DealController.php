@@ -64,17 +64,25 @@ class DealController extends Controller
         ]);
     }
 
-    public function view(Deal $deal)
+    public function view(Deal $deal, Request $request)
     {
         $visitor = Auth::user();
 
         $this->authorize('view', $deal);
 
+        $messages = Message::where('deal_id', $deal->id)->paginate(20);
+
+        if($request->ajax()) {
+            return response()->json([
+                    'messages' => $messages,
+            ]);
+        }
+
         return Inertia::render('Deal/View', [
                 'deal' => $deal,
                 'visitor' => $visitor,
                 'members' => $deal->members(),
-                'messages' => $deal->messages,
+                'messages' => $messages,
         ]);
     }
 
