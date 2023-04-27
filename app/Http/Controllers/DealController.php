@@ -86,7 +86,7 @@ class DealController extends Controller
         ]);
     }
 
-    public function view_edit(Deal $deal)
+    public function viewEdit(Deal $deal)
     {
         $visitor = Auth::user();
 
