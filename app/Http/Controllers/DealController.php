@@ -144,25 +144,22 @@ class DealController extends Controller
         $this->authorize('postReply', $deal);
 
         $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
-
-        $message = $creatorService->create($request->input('message'));
+        $creatorService->create($request->input('message'));
         $creatorService->setUser($visitor);
-        $message->save();
-
-        MessageSent::dispatch($message);
+        $creatorService->save();
     }
 
     public function updateBalance(Deal $deal) // simulate
     {
+        $this->authorize('updateBalance', $deal);
+
         $deal->balance = $deal->value;
         $deal->save();
 
         $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
-        $message = $creatorService->create("The transaction balance was replenished by $deal->balance $deal->currency.");
+        $creatorService->create("The transaction balance was replenished by $deal->balance $deal->currency.");
         $creatorService->setUser(User::find(1));
-        $message->save();
-
-        return redirect()->route('deal.view', ['deal' => $deal]);
+        $creatorService->save();
     }
 
     public function close(Deal $deal) {
@@ -174,9 +171,9 @@ class DealController extends Controller
         $deal->save();
 
         $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
-        $message = $creatorService->create("The deal was completed by $visitor->name.");
-        $creatorService->setUser(User::find(1));
-        $message->save();
+        $creatorService->create("The deal was completed by $visitor->name.");
+        $creatorService->setUser(User::find($visitor->id));
+        $creatorService->save();
 
         return redirect()->route('deal.list');
     }

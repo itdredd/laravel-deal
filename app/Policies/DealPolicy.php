@@ -125,4 +125,9 @@ class DealPolicy
     {
         return $deal->status === 'open' && $deal->author() === $user;
     }
+
+    public function updateBalance(User $user, Deal $deal)
+    {
+        return ($deal->isMember($user) || $deal->author() === $user) && $deal->status === 'open';
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Message;
 
+use App\Events\MessageSent;
 use App\Models\Deal;
 use App\Models\Message;
 use App\Models\User;
@@ -28,12 +29,17 @@ class Creator
         $this->message->message = $message;
         $this->message->deal_id = $this->deal->id;
         $this->message->status = 'visible';
-
-        return $this->message;
     }
 
     public function setUser(User $user = null) {
         $this->message->user_id = $user->id ?? $this->visitor->id;
+    }
+
+    public function save() {
+        $this->message->save();
+        MessageSent::dispatch($this->message);
+
+        return $this->message;
     }
 
 }
