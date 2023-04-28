@@ -10,6 +10,18 @@ import {ref, onMounted} from "vue";
 
 let users = ref([]);
 let finalUsers = ref([]);
+let membersId = '';
+let errors = ref([]);
+
+function insertInFinal(user) {
+    finalUsers.value.push(user);
+
+    if (!membersId.length) {
+        membersId += user.name;
+    } else {
+        membersId += ', ' + user.name;
+    }
+}
 
 function findUser(event) {
     users.value = [];
@@ -24,26 +36,24 @@ function findUser(event) {
 
 }
 
-function insertInFinal(user) {
-    let elem = $("input[name='members_id']")[0];
-    finalUsers.value.push(user);
-
-    if (elem.value === '')
-        elem.value += user.name;
-    else
-        elem.value += ', ' + user.name;
-}
-
 function remove(index, user) {
-    let users = $("input[name='members_id']")[0].value.split(', ');
+    let users = membersId.value.split(', ');
 
     finalUsers.value.splice(index, 1);
     users.splice(index, 1);
 
-    $("input[name='members_id']")[0].value = users;
-
+    membersId = users;
 }
 
+function checkForm(e) {
+    errors.value = [];
+    if(!membersId.length) {
+        errors.value.push("Members is required.")
+        e.preventDefault();
+    }
+
+    return true;
+}
 
 </script>
 
@@ -55,8 +65,10 @@ function remove(index, user) {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Create deal</h2>
         </template>
 
-
-        <form method="POST">
+        <form method="POST" @submit="checkForm">
+            <p v-if="errors.length">
+                <span class="error" v-for="error in errors">{{ error }}</span>
+            </p>
             <div>
                 <InputLabel for="title" value="Title"/>
 
@@ -79,7 +91,7 @@ function remove(index, user) {
                     type="text"
                     name="description"
                     class="mt-1 block w-full"
-                    placeholder="Descripton"
+                    placeholder="Description"
                 />
             </div>
             <div class="mt-4">
@@ -105,11 +117,10 @@ function remove(index, user) {
             </div>
             <div class="mt-4">
                 <InputLabel for="members_id" value="Members"/>
-                <ul>
-                    <li class="float-left pr-4" :id="user['id']" v-for="(user, index) in finalUsers"
-                        @click="remove(index, user)">{{ user['name'] }}
-                    </li>
-                </ul>
+                <div class="inline-block p-1 border rounded bg-gray-200 mr-2 mb-2" :id="user['id']" v-for="(user, index) in finalUsers"
+                    @click="remove(index, user)">{{ user['name'] }}
+                    <i class="fa-solid fa-trash fa-sm"></i>
+                </div>
                 <TextInput
                     id="members_id"
                     type="text"
@@ -131,7 +142,7 @@ function remove(index, user) {
                 </PrimaryButton>
             </div>
             <input type="hidden" name="_token" :value="csrf">
-            <input type="hidden" name="members_id">
+            <input type="hidden" name="members_id" v-model="membersId">
         </form>
 
 
