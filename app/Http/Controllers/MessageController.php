@@ -8,6 +8,7 @@ use App\Repository\MessageRepository;
 use App\Services\Message\Deleter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class MessageController extends Controller
 {
@@ -17,7 +18,8 @@ class MessageController extends Controller
         $this->messageRepo = $messageRepo;
     }
 
-    public function getDealMessages(Request $request, Deal $deal) {
+    public function getDealMessages(Request $request, Deal $deal)
+    {
         $this->authorize('view', $deal);
 
         if ($request->ajax()) {
@@ -28,13 +30,33 @@ class MessageController extends Controller
         }
     }
 
-    public function remove(Message $message) {
+    public function remove(Message $message)
+    {
         $deal = $message->deal;
 
         $delService = new Deleter($message);
         $delService->delete();
 
         return redirect()->route('deal.view', ['deal' => $deal]);
+    }
+
+    public function viewEdit(Message $message)
+    {
+        return Inertia::render('Message/Edit', [
+                'message' => $message,
+        ]);
+    }
+
+    public function edit(Message $message, Request $request)
+    {
+        $newMessage = $request->input('message');
+
+        if ($newMessage) {
+            $message->message = $newMessage;
+            $message->save();
+        }
+
+        return redirect()->route('deal.view', ['deal' => $message->deal]);
     }
 }
 

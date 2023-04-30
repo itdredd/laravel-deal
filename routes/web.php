@@ -45,6 +45,8 @@ Route::get('/deal/{deal}/update-balance', [\App\Http\Controllers\DealController:
 
 Route::get('/message/deal/{deal}', [\App\Http\Controllers\MessageController::class, 'getDealMessages'])->name('message.deal-message')->whereNumber('deal');
 Route::get('/message/{message}/remove', [\App\Http\Controllers\MessageController::class, 'remove'])->name('message.remove')->whereNumber('message');
+Route::get('/message/{message}/edit', [\App\Http\Controllers\MessageController::class, 'viewEdit'])->name('message.edit')->whereNumber('message');
+Route::post('/message/{message}/edit', [\App\Http\Controllers\MessageController::class, 'edit'])->whereNumber('message');
 
 //find
 Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');
