@@ -91,4 +91,9 @@ class MessagePolicy
     {
         //
     }
+
+    public function edit(User $user, Message $message)
+    {
+        return $user->is_admin || $message->user_id === $user->id;
+    }
 }

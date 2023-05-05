@@ -54,7 +54,7 @@ const getResults = async (page = 1) => {
                 <span v-if="$page.props.auth.user.is_admin" class="message-action"><a
                         :href="route('message.remove', {message: message.id})"><i
                         class="fa-solid fa-trash"></i></a></span>
-                <span v-if="$page.props.auth.user.is_admin" class="message-action"><a
+                <span v-if="$page.props.auth.user.id === message.user_id || $page.props.auth.user.is_admin" class="message-action"><a
                         :href="route('message.edit', {message: message.id})"><i
                         class="fa-solid fa-pen-to-square"></i></a></span>
             </div>

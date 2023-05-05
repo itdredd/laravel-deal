@@ -42,6 +42,8 @@ class MessageController extends Controller
 
     public function viewEdit(Message $message)
     {
+        $this->authorize('edit', $message);
+
         return Inertia::render('Message/Edit', [
                 'message' => $message,
         ]);
@@ -49,6 +51,8 @@ class MessageController extends Controller
 
     public function edit(Message $message, Request $request)
     {
+        $this->authorize('edit', $message);
+
         $newMessage = $request->input('message');
 
         if ($newMessage) {
