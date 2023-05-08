@@ -52,6 +52,10 @@ Route::post('/message/{message}/edit', [\App\Http\Controllers\MessageController:
 Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');
 Route::post('/users/find', [\App\Http\Controllers\UserController::class, 'findUser']);
 
+
+Route::get('/guarantors/find', [\App\Http\Controllers\GuarantorController::class, 'find']);
+
+
 //profile
 Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');
 
