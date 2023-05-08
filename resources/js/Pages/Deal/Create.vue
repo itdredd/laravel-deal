@@ -12,6 +12,15 @@ let users = ref([]);
 let finalUsers = ref([]);
 let membersId = '';
 let errors = ref([]);
+let guarantors = ref([]);
+
+
+onMounted(() => {
+    axios.get('/guarantors/find')
+        .then(function (response) {
+            guarantors.value = response.data;
+        })
+})
 
 function insertInFinal(user) {
     finalUsers.value.push(user);
@@ -134,18 +143,21 @@ function checkForm(e) {
                     </li>
                 </ul>
             </div>
-
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton class="ml-4">
+            <div class="mt-4">
+                <InputLabel for="guarantor_id" value="Guarantor"/>
+                <select id="guarantor_id" name="guarantor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    <option>Select guarantor</option>
+                    <option v-for="guarantor in guarantors" :id="guarantor['id']">{{ guarantor['name'] }}</option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <PrimaryButton>
                     Sent
                 </PrimaryButton>
             </div>
             <input type="hidden" name="_token" :value="csrf">
             <input type="hidden" name="members_id" v-model="membersId">
         </form>
-
-
     </AuthenticatedLayout>
 </template>
 
