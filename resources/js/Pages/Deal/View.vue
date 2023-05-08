@@ -63,6 +63,7 @@ function price(value, currency) {
             <span class="deal-information--price block">Balance: {{ price(deal.balance, deal.currency) }}</span>
             <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
             <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
+            <span class="deal-information--guarantor block" v-if="deal.guarantor">Guarantor: {{ deal.guarantor.name }}</span>
             <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
         </div>
         <div class="deal-actions mb-8">

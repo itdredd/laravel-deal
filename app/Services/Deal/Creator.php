@@ -23,8 +23,16 @@ class Creator
         $this->setPrice($data['currency'], $data['value']);
         $this->setMembers($data['members_id']);
         $this->setAuthor();
-
+        $this->setGuarantor($data['guarantor_id']);
         return $this->deal;
+    }
+
+    protected function setGuarantor($id) {
+        $user = User::find($id);
+
+        if ($user) {
+            $this->deal->guarantor_id = $user->id;
+        }
     }
 
     protected function setupData(string $title, string $description)

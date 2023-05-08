@@ -35,7 +35,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_admin',
     ];
 
     /**
@@ -55,6 +54,11 @@ class User extends Authenticatable
     public function deals()
     {
         return $this->hasMany(Deal::class, 'author_id');
+    }
+
+    public function guarantorDeals()
+    {
+        return $this->hasMany(Deal::class, 'guarantor_id');
     }
 
     public function isAdmin() {

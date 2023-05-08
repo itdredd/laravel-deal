@@ -23,8 +23,6 @@ class DealController extends Controller
 
     public function store(Request $request)
     {
-        $visitor = Auth::user();
-
         $this->authorize('create', Deal::class);
 
         return Inertia::render('Deal/Create');
@@ -32,10 +30,7 @@ class DealController extends Controller
 
     public function create(DealPostRequest $request)
     {
-        $visitor = Auth::user();
-
         $this->authorize('create', Deal::class);
-        //dd($request);
 
         $creatorService = new \App\Services\Deal\Creator();
 

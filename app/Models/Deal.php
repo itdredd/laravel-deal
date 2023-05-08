@@ -34,7 +34,7 @@ class Deal extends Model
         'balance'
     ];
 
-    protected $with = ['author'];
+    protected $with = ['author', 'guarantor'];
 
     public function status() {
         return $this->status;
@@ -45,6 +45,10 @@ class Deal extends Model
 
     public function messages() {
         return $this->hasMany(Message::class);
+    }
+
+    public function guarantor() {
+        return $this->belongsTo(User::class);
     }
 
     // TODO edit to relationship

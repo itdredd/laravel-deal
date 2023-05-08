@@ -147,7 +147,7 @@ function checkForm(e) {
                 <InputLabel for="guarantor_id" value="Guarantor"/>
                 <select id="guarantor_id" name="guarantor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                     <option>Select guarantor</option>
-                    <option v-for="guarantor in guarantors" :id="guarantor['id']">{{ guarantor['name'] }}</option>
+                    <option v-for="guarantor in guarantors" :value="guarantor['id']">{{ guarantor['name'] }}</option>
                 </select>
             </div>
             <div class="mt-4">
