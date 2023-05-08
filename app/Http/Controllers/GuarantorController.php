@@ -10,7 +10,12 @@ class GuarantorController extends Controller
 {
 
     public function find(Request $request) {
-        $users = GuarantorResource::collection(User::where('is_guarantor', 1)->get());
-        return response()->json($users);
+        $users = User::where('is_guarantor', 1);
+
+        if ($request->input('name')) {
+            $users->where('name', 'LIKE', $request->input('name'));
+        }
+
+        return response()->json(GuarantorResource::collection($users->get()));
     }
 }
