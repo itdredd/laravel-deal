@@ -3,6 +3,7 @@ import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MessageList from '@/Components/MessageList.vue';
 import LinkButton from "@/Components/LinkButton.vue";
+import {ref} from "vue";
 
 defineProps({
     deal: Object,
@@ -10,6 +11,8 @@ defineProps({
     members: Object,
     messages: Object,
 });
+
+let shortDesc = ref(true);
 
 function convertTime(time) {
     return new Date(time).toLocaleString();
@@ -55,10 +58,12 @@ function price(value, currency) {
             </div>
         </template>
 
-
         <div class="deal-information mb-4">
             <span class="deal-information--status block">Status: {{ deal.status }}</span>
-            <span class="deal-information--desciption block">Description: {{ deal.description }}</span>
+            <span class="deal-information--desciption block">
+                Description: {{ shortDesc ? deal.description.substring(0, 500) : deal.description }}
+                <i class="fas fa-ellipsis-h" v-if="deal.description.length > 500" @click="shortDesc = !shortDesc" title="Extend text"></i>
+            </span>
             <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
             <span class="deal-information--price block">Balance: {{ price(deal.balance, deal.currency) }}</span>
             <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
@@ -84,5 +89,8 @@ function price(value, currency) {
     a + a {
         margin-left: 0.5em;
     }
+}
+i {
+    cursor: pointer;
 }
 </style>
