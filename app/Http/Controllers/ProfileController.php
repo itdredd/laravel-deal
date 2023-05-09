@@ -49,7 +49,8 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request) {
-        $request->validate([
+        return Redirect::route('profile.edit');
+        /*$request->validate([
             'password' => ['required', 'current-password'],
         ]);
 
@@ -62,7 +63,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/');*/
     }
 
     public function avatar(Request $request) {
