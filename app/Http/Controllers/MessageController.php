@@ -6,6 +6,7 @@ use App\Models\Deal;
 use App\Models\Message;
 use App\Repository\MessageRepository;
 use App\Services\Message\Deleter;
+use App\Services\Message\Editor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -52,12 +53,10 @@ class MessageController extends Controller
     public function edit(Message $message, Request $request)
     {
         $this->authorize('edit', $message);
-
         $newMessage = $request->input('message');
 
         if ($newMessage) {
-            $message->message = $newMessage;
-            $message->save();
+            $editService = new Editor($message, $request->input('message'));
         }
 
         return redirect()->route('deal.view', ['deal' => $message->deal]);

@@ -45,6 +45,7 @@ const getResults = async (page = 1) => {
                     <span class="text-sm text-gray-700">{{ message.user.name }} | {{
                         convertTime(message.created_at)
                         }}</span>
+                    <span class="text-sm text-gray-700" v-if="message.message_history.length"> | edited</span>
                 </div>
                 <div class="text-sm text-gray-700">
                     <span class="text-sm text-gray-700">#{{ message.id }}</span>

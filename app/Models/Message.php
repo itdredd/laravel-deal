@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * @property int $id
  * @property int $created_at
@@ -15,12 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $message
  * @property string $status
  */
-
 class Message extends Model
 {
     use HasFactory;
 
-    protected $with = ['user'];
+    protected $with = ['user', 'messageHistory'];
+
+    public function messageHistory(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(MessageHistory::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|User

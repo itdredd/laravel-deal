@@ -2,32 +2,35 @@
 
 namespace App\Services\Message;
 
-use App\Models\Deal;
 use App\Models\Message;
+use App\Models\MessageHistory;
 use Illuminate\Support\Facades\Auth;
 
 class Editor
 {
-    protected Deal $deal;
-    protected Message $message;
 
-    public function __construct(Message $message)
+    protected Message $message;
+    protected $oldMessage;
+    protected $newMessage;
+
+    public function __construct(Message $message, $newMessage)
     {
         $this->message = $message;
-        $this->deal = $message->deal;
+        $this->oldMessage = $message->message;
+        $this->newMessage = $newMessage;
+
+        $this->createHistory();
+        $message->message = $newMessage;
+        $message->save();
     }
 
-    public function create(string $message)
+    protected function createHistory()
     {
-        $visitor = Auth::user();
-
-        $message = new Message();
-        $message->user_id = $visitor->id;
-        $message->message = $message;
-        $message->deal_id = $this->deal->id;
-        $message->status = 'visible';
-
-        return $message;
+        $history = MessageHistory::create([
+            'message_id' => $this->message->id,
+            'old_message' => $this->oldMessage,
+            'new_message' => $this->newMessage,
+            'user_id' => Auth::id()
+        ]);
     }
-
 }
