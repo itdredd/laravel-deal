@@ -31,7 +31,7 @@ class DealPolicy
      */
     public function view(User $user, Deal $deal)
     {
-        return $user->id===$deal->author_id || $deal->isMember($user);
+        return $user->id===$deal->author_id || $deal->isMember($user) || $user->id === $deal->guarantor_id;
     }
 
     /**
@@ -118,7 +118,7 @@ class DealPolicy
 
     public function postReply(User $user, Deal $deal)
     {
-        return $deal->status !== 'rejected' && $deal->isMember($user);
+        return $deal->status !== 'rejected' && ($deal->isMember($user)  || $user->id === $deal->guarantor_id);
     }
 
     public function close(User $user, Deal $deal)
