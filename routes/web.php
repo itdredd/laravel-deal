@@ -58,5 +58,6 @@ Route::get('/guarantors/find', [\App\Http\Controllers\GuarantorController::class
 
 //profile
 Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');
+Route::get('/profile/change-language', [ProfileController::class, 'changeLang'])->name('profile.change-language');
 
 require __DIR__.'/auth.php';

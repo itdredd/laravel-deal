@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,5 +74,13 @@ class ProfileController extends Controller
             Auth()->user()->update(['avatar' => $filename]);
         }
         return redirect()->back();
+    }
+
+    public function changeLang() {
+        $user = User::find(Auth::id());
+        $user->language == 'en' ? $user->language = 'ru' : $user->language = 'en';
+        $user->save();
+
+        return Redirect::route('deal.list');
     }
 }

@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import { loadLanguageAsync, getActiveLanguage } from 'laravel-vue-i18n';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -74,6 +75,7 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             {{ $t('auth.log_out') }}
                                         </DropdownLink>
+                                        <DropdownLink :href="route('profile.change-language')" @click="loadLanguageAsync(getActiveLanguage() == 'en' ? 'ru' : 'en')"> {{ $t('auth.change_language') }} </DropdownLink>
                                     </template>
                                 </Dropdown>
                             </div>
