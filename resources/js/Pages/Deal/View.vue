@@ -30,10 +30,6 @@ function listUsernames(members) {
     return list;
 }
 
-function price(value, currency) {
-    return value + ' ' + currency;
-}
-
 </script>
 
 
@@ -59,21 +55,21 @@ function price(value, currency) {
         </template>
 
         <div class="deal-information mb-4">
-            <span class="deal-information--status block">Status: {{ deal.status }}</span>
+            <span class="deal-information--status block">{{ $t('deal.status_x', {'status': $t('deal.status.' + deal.status)}) }}</span>
             <span class="deal-information--desciption block">
-                Description: {{ shortDesc ? deal.description.substring(0, 500) : deal.description }}
+                {{ $t('deal.description', {'description': shortDesc ? deal.description.substring(0, 500) : deal.description}) }}
                 <i class="fas fa-ellipsis-h" v-if="deal.description.length > 500" @click="shortDesc = !shortDesc" title="Extend text"></i>
             </span>
-            <span class="deal-information--price block">Price: {{ price(deal.value, deal.currency) }}</span>
-            <span class="deal-information--price block">Balance: {{ price(deal.balance, deal.currency) }}</span>
-            <span class="deal-information--author block">Author: {{ deal.author.name }}</span>
-            <span class="deal-information--members block">Members: {{ listUsernames(members) }}</span>
-            <span class="deal-information--guarantor block" v-if="deal.guarantor">Guarantor: {{ deal.guarantor.name }}</span>
-            <span class="deal-information--create-date block">Created at: {{ convertTime(deal.created_at) }}</span>
+            <span class="deal-information--price block">{{ $t('deal.price_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>
+            <span class="deal-information--balance block">{{ $t('deal.balance_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>
+            <span class="deal-information--author block">{{ $t('deal.author_x', {'name': deal.author.name}) }}</span>
+            <span class="deal-information--members block">{{ $t('deal.members_x', {'members': listUsernames(members)}) }}</span>
+            <span class="deal-information--guarantor block" v-if="deal.guarantor"> {{ $t('deal.guarantor_x', {'name': deal.guarantor.name}) }}</span>
+            <span class="deal-information--create-date block">{{ $t('deal.created_at_x', {'date': convertTime(deal.created_at)})}}</span>
         </div>
         <div class="deal-actions mb-8">
           <LinkButton v-if="deal.status === 'open' && visitor.id === deal.author.id" :href="route('deal.close', {'deal': deal})">
-            Close
+              {{ $t('deal.close') }}
           </LinkButton>
         </div>
 

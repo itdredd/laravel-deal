@@ -79,7 +79,7 @@ function checkForm(e) {
                 <span class="error" v-for="error in errors">{{ error }}</span>
             </p>
             <div>
-                <InputLabel for="title" value="Title"/>
+                <InputLabel for="title" :value="$t('form.title')"/>
 
                 <TextInput
                     id="title"
@@ -88,23 +88,23 @@ function checkForm(e) {
                     class="mt-1 block w-full"
                     required
                     autofocus
-                    placeholder="Title"
+                    :placeholder="$t('form.title')"
                 />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="description" value="Description"/>
+                <InputLabel for="description" :value="$t('deal.description')"/>
 
                 <TextArea
                     id="description"
                     type="text"
                     name="description"
                     class="mt-1 block w-full"
-                    placeholder="Description"
+                    :placeholder="$t('deal.description')"
                 />
             </div>
             <div class="mt-4">
-                <InputLabel for="value" value="Value"/>
+                <InputLabel for="value" :value="$t('form.value')"/>
 
                 <div class="flex justify-between">
                     <TextInput
@@ -146,13 +146,13 @@ function checkForm(e) {
             <div class="mt-4">
                 <InputLabel for="guarantor_id" value="Guarantor"/>
                 <select id="guarantor_id" name="guarantor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    <option>Select guarantor</option>
+                    <option>{{ $t('form.select_x', {'x': $t('deal.guarantor').toLowerCase()}) }}</option>
                     <option v-for="guarantor in guarantors" :value="guarantor['id']">{{ guarantor['name'] }}</option>
                 </select>
             </div>
             <div class="mt-4">
                 <PrimaryButton>
-                    Sent
+                    {{ $t('form.sent') }}
                 </PrimaryButton>
             </div>
             <input type="hidden" name="_token" :value="csrf">

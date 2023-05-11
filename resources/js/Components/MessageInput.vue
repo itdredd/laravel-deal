@@ -1,15 +1,15 @@
 <template>
     <div class="message-input mt-2">
         <form method="POST" @submit="sentMessage" v-if="!action && !message">
-            <TextArea class="w-full" name="message" placeholder="Enter your message"
+            <TextArea class="w-full" name="message" :placeholder="$t('form.enter_your_message')"
                       :disabled="deal.status === 'rejected' || deal.status === 'close'"/>
             <PrimaryButton class="block" :disabled="deal && (deal.status === 'rejected' || deal.status === 'close')">
-                {{ action ?? 'Sent' }}
+                {{ $t('form.sent') }}
             </PrimaryButton>
             <input type="hidden" name="_token" :value="csrf">
         </form>
         <form method="POST" v-else>
-            <TextArea class="w-full" name="message" :value="message.message" placeholder="Enter your message"/>
+            <TextArea class="w-full" name="message" :value="message.message" :placeholder="$t('form.enter_your_message')"/>
             <PrimaryButton class="block">
                 {{ action }}
             </PrimaryButton>
@@ -28,8 +28,6 @@ const props = defineProps({
     message: Object
 })
 
-
-console.log(props.action)
 function sentMessage(e) {
     e.preventDefault();
     let formData = new FormData(e.target);

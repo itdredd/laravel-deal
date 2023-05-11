@@ -1,11 +1,11 @@
 <template>
     <select class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500">
-        <option value="">Select status</option>
-        <option value="close">Closed</option>
-        <option value="arbitration">On arbitration</option>
-        <option value="open">Open</option>
-        <option value="awaiting">Awaiting</option>
-        <option value="rejected">Rejected</option>
+        <option value="">{{ $t('form.select_x', {'x': $t('deal.status')}) }}</option>
+        <option value="close">{{ $t('deal.status.close') }}</option>
+        <option value="arbitration">{{ $t('deal.status.on_arbitration') }}</option>
+        <option value="open">{{ $t('deal.status.open') }}</option>
+        <option value="awaiting">{{ $t('deal.status.awaiting') }}</option>
+        <option value="rejected">{{ $t('deal.status.rejected') }}</option>
     </select>
 </template>
 

@@ -45,7 +45,7 @@ const getResults = async (page = 1) => {
                     <span class="text-sm text-gray-700">{{ message.user.name }} | {{
                         convertTime(message.created_at)
                         }}</span>
-                    <span class="text-sm text-gray-700" v-if="message.message_history.length"> | edited</span>
+                    <span class="text-sm text-gray-700" v-if="message.message_history.length"> | {{ $t('message.edited').toLowerCase() }}</span>
                 </div>
                 <div class="text-sm text-gray-700">
                     <span class="text-sm text-gray-700">#{{ message.id }}</span>
@@ -65,7 +65,7 @@ const getResults = async (page = 1) => {
         <div class="message bg-white rounded-md p-4" v-else>
             <span class="block message-information text-sm text-gray-700">Empty.</span>
             <hr class="mb-2">
-            <span class="message-text">No message yet.</span>
+            <span class="message-text">{{ $t('message.no_message_yet') }}</span>
         </div>
         <div class="pagination text-center mt-2">
             <TailwindPagination class="center"

@@ -13,15 +13,14 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Deal list"/>
+    <Head :title="$t('deal.deals')"/>
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto">Deal list</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto">{{ $t('deal.deals') }}</h2>
                 <a :href="route('deal.create')"
-                   class="bg-red-500 hover:red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">Create
-                    deal</a>
+                   class="bg-red-500 hover:red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">{{ $t('deal.create_deal')}}</a>
             </div>
         </template>
 
@@ -35,7 +34,7 @@ const props = defineProps({
                 </div>
 
                 <PrimaryButton class="ml-4">
-                    Find
+                    {{ $t('form.find')}}
                 </PrimaryButton>
             </form>
         </div>

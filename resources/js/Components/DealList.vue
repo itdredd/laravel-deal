@@ -6,17 +6,17 @@
       </div>
 
       <div class="information information-members mr-16">
-        <span class="block">Author: {{ deal.author.name }}</span>
-        <span class="block">Members: {{ deal.members_id }}</span>
+        <span class="block">{{ $t('deal.author_x', {'name': deal.author.name}) }}</span>
+        <span class="block">{{ $t('deal.members_x', {'members': deal.members_id}) }}</span>
       </div>
       <div class="information information-date">
         <span class="block">{{ convertTime(deal.created_at) }}</span>
-        <span class="block">{{ deal.status }}</span>
+        <span class="block">{{ $t('deal.status.' + deal.status) }}</span>
       </div>
     </div>
 
     <div class="deal bg-white my-2 p-4 flex justify-between" v-if="deals.length === 0">
-      Nothing to render
+        {{ $t('deal.nothing_to_render') }}
     </div>
   </div>
 </template>
