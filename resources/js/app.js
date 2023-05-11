@@ -6,7 +6,7 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
-import LaravelPermissionToVueJS from 'laravel-permission-to-vuejs';
+import { i18nVue } from 'laravel-vue-i18n'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -18,7 +18,12 @@ createInertiaApp({
             render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
-            .use(LaravelPermissionToVueJS);
+            .use(i18nVue, {
+                resolve: async lang => {
+                    const langs = import.meta.glob('../../lang/*.json');
+                    return await langs[`../../lang/${lang}.json`]();
+                }
+            });
 
         vueApp.config.globalProperties.csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         vueApp.mount(el);
