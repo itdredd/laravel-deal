@@ -2,6 +2,6 @@
 
 return [
 
-        'profile' => 'Profile',
+        'profile' => 'Профиль',
 
 ];

@@ -34,13 +34,14 @@ function listUsernames(members) {
 
 
 <template>
-    <Head :title="'Deal: ' + deal.title"/>
+    <Head :title="$t('deal.deal_x', {'title': deal.title})"/>
 
     <AuthenticatedLayout>
         <template #header>
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto inline mr-2">Deal:
-                    {{ deal.title }}</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight my-auto inline mr-2">
+                    {{ $t('deal.deal_x', {'title': deal.title}) }}
+                </h2>
                 <div class="action-icons inline">
                     <a :href="route('deal.edit', {'deal': deal.id})"
                        v-if="visitor.id == deal.author_id || visitor.is_admin"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -57,7 +58,7 @@ function listUsernames(members) {
         <div class="deal-information mb-4">
             <span class="deal-information--status block">{{ $t('deal.status_x', {'status': $t('deal.status.' + deal.status)}) }}</span>
             <span class="deal-information--desciption block">
-                {{ $t('deal.description', {'description': shortDesc ? deal.description.substring(0, 500) : deal.description}) }}
+                {{ $t('deal.description_x', {'description': shortDesc ? deal.description.substring(0, 500) : deal.description}) }}
                 <i class="fas fa-ellipsis-h" v-if="deal.description.length > 500" @click="shortDesc = !shortDesc" title="Extend text"></i>
             </span>
             <span class="deal-information--price block">{{ $t('deal.price_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>

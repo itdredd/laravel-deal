@@ -42,10 +42,11 @@ const getResults = async (page = 1) => {
              v-if="messages.data.length">
             <div class="message-top-information flex justify-between">
                 <div class="text-sm text-gray-700">
-                    <span class="text-sm text-gray-700">{{ message.user.name }} | {{
-                        convertTime(message.created_at)
-                        }}</span>
-                    <span class="text-sm text-gray-700" v-if="message.message_history.length"> | {{ $t('message.edited').toLowerCase() }}</span>
+                    <ul class="list">
+                        <li>{{ message.user.name }}</li>
+                        <li>{{ convertTime(message.created_at) }}</li>
+                        <li v-if="message.message_history.length">{{ $t('message.edited').toLowerCase() }}</li>
+                    </ul>
                 </div>
                 <div class="text-sm text-gray-700">
                     <span class="text-sm text-gray-700">#{{ message.id }}</span>
@@ -92,5 +93,17 @@ i {
 
 .message-action + .message-action {
     margin-left: 0.3em;
+}
+
+.list {
+    li + li::before {
+        content: " | ";
+    }
+    li+li {
+        padding-left: 0.5em;
+    }
+    li {
+        float: left;
+    }
 }
 </style>

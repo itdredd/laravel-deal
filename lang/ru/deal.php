@@ -3,6 +3,7 @@
 return [
 
         'deal' => 'Сделка',
+        'deal_x' => 'Сделка: :title',
         'deals' => 'Сделки',
         'create_deal' => 'Создать сделку',
         'status' => 'Статус',

@@ -3,6 +3,7 @@
 return [
 
         'deal' => 'Deal',
+        'deal_x' => 'Deal: :title',
         'deals' => 'Deals',
         'create_deal' => 'Create deal',
         'status' => 'Status',

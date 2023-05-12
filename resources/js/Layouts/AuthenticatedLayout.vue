@@ -75,7 +75,9 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             {{ $t('auth.log_out') }}
                                         </DropdownLink>
-                                        <DropdownLink :href="route('profile.change-language')" @click="loadLanguageAsync(getActiveLanguage() == 'en' ? 'ru' : 'en')"> {{ $t('auth.change_language') }} </DropdownLink>
+                                        <DropdownLink :href="route('profile.change-language')" @click="loadLanguageAsync(getActiveLanguage() == 'en' ? 'ru' : 'en')">
+                                            {{ $t('auth.change_language') }}
+                                        </DropdownLink>
                                     </template>
                                 </Dropdown>
                             </div>

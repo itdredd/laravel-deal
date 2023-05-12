@@ -2,11 +2,11 @@
 
 return [
 
-        'find' => 'Find',
-        'select_x' => 'Select :x',
-        'enter_your_message' => 'Enter your message',
-        'sent' => 'Sent',
-        'title' => 'Title',
-        'value' => 'Value',
+        'find' => 'Поиск',
+        'select_x' => 'Выбрать :x',
+        'enter_your_message' => 'Введите Ваше сообщение',
+        'sent' => 'Отправить',
+        'title' => 'Название',
+        'value' => 'Количество',
 
 ];

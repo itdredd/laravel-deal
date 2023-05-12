@@ -2,9 +2,9 @@
 
 return [
 
-        'currency' => 'Currency',
-        'rub' => 'Russian Ruble',
-        'uah' => 'Ukrainian Hryvnia',
-        'usd' => 'US Dollar',
+        'currency' => 'Валюта',
+        'rub' => 'Российские рубли',
+        'uah' => 'Украинские гривны',
+        'usd' => 'Доллары США',
 
 ];
