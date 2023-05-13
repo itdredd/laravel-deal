@@ -33,9 +33,9 @@ function insertInFinal(user) {
 }
 
 function findUser(event) {
-    users.value = [];
-    if (event.target.value.length >= 1) {
+    if (event.target.value.length >= 2) {
         axios.post('/users/find/', {name: event.target.value}).then((response) => {
+            users.value = [];
             response.data.forEach(elem => users.value.push(elem));
 
         }, (error) => {
@@ -46,7 +46,7 @@ function findUser(event) {
 }
 
 function remove(index, user) {
-    let users = membersId.value.split(', ');
+    let users = membersId.split(', ');
 
     finalUsers.value.splice(index, 1);
     users.splice(index, 1);
