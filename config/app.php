@@ -197,7 +197,6 @@ return [
 
 
         /*Permission Providers*/
-        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

@@ -15,12 +15,6 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script type="text/javascript">
-            window.Laravel = {
-                csrfToken: "{{ csrf_token() }}",
-                jsPermissions: {!! auth()->check()?auth()->user()->jsPermissions():'null' !!}
-            }
-        </script>
     </head>
     <body class="font-sans antialiased">
         @inertia
