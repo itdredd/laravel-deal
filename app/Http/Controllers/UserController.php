@@ -8,12 +8,10 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function store() {
-        return Inertia::render('Dev/FindUser');
-    }
-
-    public function findUser(Request $request) {
-        $users = User::select('id', 'name')->where('name', 'LIKE', $request->input('name'))->get();
+    public function findUser(Request $request)
+    {
+        // TODO minimal length request name
+        $users = User::select('id', 'name')->where('name', 'LIKE', $request->input('name') . '%')->get();
         return $users;
     }
 }

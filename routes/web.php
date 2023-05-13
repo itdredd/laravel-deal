@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/deal', [\App\Http\Controllers\DealController::class, 'list'])->name('deal.list')->whereAlpha('status');
+Route::get('/deal', [\App\Http\Controllers\DealController::class, 'list'])->name('deal.list');
 Route::get('/test', [\App\Http\Controllers\DealController::class, 'test']);
 Route::get('/deal/{deal}', [\App\Http\Controllers\DealController::class, 'view'])->name('deal.view')->whereNumber('deal');
 Route::get('/deal/create', [\App\Http\Controllers\DealController::class, 'store'])->name('deal.create');
@@ -49,12 +49,14 @@ Route::get('/message/{message}/edit', [\App\Http\Controllers\MessageController::
 Route::post('/message/{message}/edit', [\App\Http\Controllers\MessageController::class, 'edit'])->whereNumber('message');
 
 //find
-Route::get('/users/find', [\App\Http\Controllers\UserController::class, 'store'])->name('users.find');
 Route::post('/users/find', [\App\Http\Controllers\UserController::class, 'findUser']);
 
-
+//guarantors
 Route::get('/guarantors/find', [\App\Http\Controllers\GuarantorController::class, 'find']);
 
+//conversation
+Route::get('/conversation', [\App\Http\Controllers\ConversationController::class, 'list'])->name('conv.list')->whereAlpha('status');
+Route::get('/conversation/create', [\App\Http\Controllers\ConversationController::class, 'store'])->name('conv.create');
 
 //profile
 Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');

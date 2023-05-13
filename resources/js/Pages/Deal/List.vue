@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DealList from '@/Components/DealList.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import StatusSelect from '@/Components/StatusSelect.vue';
-import {defineProps, reactive, toRefs, ref, toRef} from "vue";
+import {defineProps} from "vue";
 
 const props = defineProps({
     deals: Object,
@@ -26,13 +26,10 @@ const props = defineProps({
 
         <div class="filters">
             <form method="get" class="flex">
-                <div class="">
-                    <StatusSelect
-                        class="block w-48 p-2.5"
-                        id="status" name="status"
-                    />
-                </div>
-
+                <StatusSelect
+                    class="block w-48 p-2.5"
+                    id="status" name="status"
+                />
                 <PrimaryButton class="ml-4">
                     {{ $t('form.find')}}
                 </PrimaryButton>
