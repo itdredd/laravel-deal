@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $message
  * @property string $status
  */
-class Message extends Model
+class DealMessage extends Model
 {
     use HasFactory;
 
@@ -22,7 +22,7 @@ class Message extends Model
 
     public function messageHistory(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(MessageHistory::class);
+        return $this->hasMany(MessageHistory::class, 'message_id');
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Http\Requests\DealPostRequest;
 use App\Models\Deal;
-use App\Models\Message;
+use App\Models\DealMessage;
 use App\Models\User;
 use App\Repository\DealRepository;
 use Illuminate\Http\Request;
@@ -65,7 +65,7 @@ class DealController extends Controller
 
         $this->authorize('view', $deal);
 
-        $messages = Message::where('deal_id', $deal->id)->paginate(20);
+        $messages = DealMessage::where('deal_id', $deal->id)->paginate(20);
 
         if($request->ajax()) {
             return response()->json([

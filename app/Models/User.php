@@ -49,7 +49,7 @@ class User extends Authenticatable
     protected $with = ['roles'];
 
     public function messages() {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(DealMessage::class);
     }
     
     public function deals()

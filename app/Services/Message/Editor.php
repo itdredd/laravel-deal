@@ -2,18 +2,18 @@
 
 namespace App\Services\Message;
 
-use App\Models\Message;
+use App\Models\DealMessage;
 use App\Models\MessageHistory;
 use Illuminate\Support\Facades\Auth;
 
 class Editor
 {
 
-    protected Message $message;
+    protected DealMessage $message;
     protected $oldMessage;
     protected $newMessage;
 
-    public function __construct(Message $message, $newMessage)
+    public function __construct(DealMessage $message, $newMessage)
     {
         $this->message = $message;
         $this->oldMessage = $message->message;

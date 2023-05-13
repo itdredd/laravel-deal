@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\Message;
+use App\Models\DealMessage;
 use App\Models\User;
 
 class MessageSent implements ShouldBroadcast
@@ -19,9 +19,9 @@ class MessageSent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Message details
+     * DealMessage details
      *
-     * @var Message
+     * @var DealMessage
      */
     public $message;
 
@@ -30,7 +30,7 @@ class MessageSent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(DealMessage $message)
     {
         $this->message = $message;
     }

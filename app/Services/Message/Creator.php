@@ -4,7 +4,7 @@ namespace App\Services\Message;
 
 use App\Events\MessageSent;
 use App\Models\Deal;
-use App\Models\Message;
+use App\Models\DealMessage;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +12,7 @@ class Creator
 {
     protected Deal $deal;
     protected User $visitor;
-    protected Message $message;
+    protected DealMessage $message;
 
     public function __construct(Deal $deal)
     {
@@ -24,7 +24,7 @@ class Creator
     {
         $visitor = Auth::user();
 
-        $this->message = new Message();
+        $this->message = new DealMessage();
 
         $this->message->message = $message;
         $this->message->deal_id = $this->deal->id;
