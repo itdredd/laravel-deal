@@ -10,7 +10,7 @@ return [
         'status_x' => 'Status: :status',
         'description' => 'Description',
         'description_x' => 'Description: :description',
-        'status.close' => 'Close',
+        'status.closed' => 'Closed',
         'status.on_arbitration' => 'On arbitration',
         'status.open' => 'Open',
         'status.awaiting' => 'Awaiting',
@@ -29,5 +29,7 @@ return [
         'created_at_x' => 'Created at: :date',
         'close' => 'Close',
         'nothing_to_render' => 'Nothing to render',
+        'deal_was_completed' => 'The deal was completed by :name.',
+        'select_guarantor' => 'Select the guarantor',
 
 ];

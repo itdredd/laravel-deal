@@ -8,5 +8,6 @@ return [
         'sent' => 'Sent',
         'title' => 'Title',
         'value' => 'Value',
+        'create' => 'Create',
 
 ];

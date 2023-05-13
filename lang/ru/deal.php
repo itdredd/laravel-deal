@@ -10,7 +10,7 @@ return [
         'status_x' => 'Статус: :status',
         'description' => 'Описание',
         'description_x' => 'Описание: :description',
-        'status.close' => 'Закрыто',
+        'status.closed' => 'Закрыто',
         'status.on_arbitration' => 'В арбитраже',
         'status.open' => 'Открыто',
         'status.awaiting' => 'Ожидание',
@@ -27,7 +27,9 @@ return [
         'guarantor_x' => 'Гарант: :name',
         'created_at' => 'Создано',
         'created_at_x' => 'Создано: :date',
-        'close' => 'Закрыто',
+        'close' => 'Закрыть',
         'nothing_to_render' => 'Нечего отображать',
+        'deal_was_completed' => 'Сделка забыла завершена пользователем: :name.',
+        'select_guarantor' => 'Выберите гаранта',
 
 ];

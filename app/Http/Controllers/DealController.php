@@ -162,11 +162,11 @@ class DealController extends Controller
 
         $this->authorize('close', $deal);
 
-        $deal->status = 'close';
+        $deal->status = 'closed';
         $deal->save();
 
         $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
-        $creatorService->create("The deal was completed by $visitor->name.");
+        $creatorService->create(__('deal.deal_was_completed', ['name' => $visitor->name]));
         $creatorService->setUser(User::find($visitor->id));
         $creatorService->save();
 

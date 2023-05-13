@@ -125,7 +125,7 @@ function checkForm(e) {
                 </div>
             </div>
             <div class="mt-4">
-                <InputLabel for="members_id" value="Members"/>
+                <InputLabel for="members_id" :value="$t('deal.members')"/>
                 <div class="inline-block p-1 border rounded bg-gray-200 mr-2 mb-2" :id="user['id']" v-for="(user, index) in finalUsers"
                     @click="remove(index, user)">{{ user['name'] }}
                     <i class="fa-solid fa-trash fa-sm"></i>
@@ -144,15 +144,15 @@ function checkForm(e) {
                 </ul>
             </div>
             <div class="mt-4">
-                <InputLabel for="guarantor_id" value="Guarantor"/>
+                <InputLabel for="guarantor_id" :value="$t('deal.guarantor')"/>
                 <select id="guarantor_id" name="guarantor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    <option>{{ $t('form.select_x', {'x': $t('deal.guarantor').toLowerCase()}) }}</option>
+                    <option>{{ $t('deal.select_guarantor') }}</option>
                     <option v-for="guarantor in guarantors" :value="guarantor['id']">{{ guarantor['name'] }}</option>
                 </select>
             </div>
             <div class="mt-4">
                 <PrimaryButton>
-                    {{ $t('form.sent') }}
+                    {{ $t('form.create') }}
                 </PrimaryButton>
             </div>
             <input type="hidden" name="_token" :value="csrf">
