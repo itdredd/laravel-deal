@@ -67,7 +67,7 @@ class DealController extends Controller
 
         $messages = DealMessage::where('deal_id', $deal->id)->paginate(20);
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             return response()->json([
                     'messages' => $messages,
             ]);

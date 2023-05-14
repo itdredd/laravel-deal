@@ -11,20 +11,25 @@ use Inertia\Inertia;
 
 class ConversationController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
         $visitor = Auth::user();
+        $conversations = [];
 
         if (!$visitor) {
             return redirect()->route('login');
         }
 
-        foreach ($visitor->conversations as $conv) {
-            $conversations[] = $conv->conversation;
+        foreach ($visitor->conversationsMember()->paginate(20) as $conversationMember) {
+            $conversations[] = $conversationMember->conversation;
+        }
+
+        if ($request->ajax()) {
+            return response()->json($conversations);
         }
 
         return Inertia::render('Conversation/List', [
-                'conversations' => $conversations ?? null
+                'conversations' => $conversations
         ]);
     }
 

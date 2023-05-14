@@ -23,7 +23,7 @@ function convertTime(time) {
 }
 
 const getResults = async (page = 1) => {
-    axios.get(`http://localhost/deal/${props.deal.id}?page=${page}`)
+    await axios.get(`http://localhost/deal/${props.deal.id}?page=${page}`)
         .then(function (response) {
             messages.value = response.data.messages
         });

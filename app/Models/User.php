@@ -60,7 +60,7 @@ class User extends Authenticatable
         return $this->hasMany(Deal::class, 'guarantor_id');
     }
 
-    public function conversations()
+    public function conversationsMember()
     {
         return $this->hasMany(ConversationMember::class);
     }

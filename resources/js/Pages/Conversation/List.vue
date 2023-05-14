@@ -1,18 +1,36 @@
 <script setup>
 import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {defineProps, ref} from "vue";
+import {defineProps, onMounted, ref} from "vue";
 
 const props = defineProps({
     conversations: Object,
 });
 
 let messages = ref([]);
+let page = 0;
+let conversations = ref(props.conversations);
+
+onMounted(() => {
+    const masonry = document.querySelector('div.sidebar');
+    masonry.addEventListener('scroll', (e) => {
+        if (masonry.scrollTop + masonry.clientHeight === masonry.scrollHeight) {
+            getConversation();
+        }
+    })
+})
 
 function getMessages(conv) {
     axios.get(`conversation/${conv}`)
         .then(function (response) {
             messages.value = response.data;
+        });
+}
+
+async function getConversation() {
+    await axios.get(`conversation?page=${++page}`)
+        .then(function (response) {
+            conversations.value = conversations.value.concat(response.data);
         });
 }
 
