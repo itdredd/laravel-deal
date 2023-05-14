@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasMany(Deal::class, 'guarantor_id');
     }
 
+    public function conversations()
+    {
+        return $this->hasMany(ConversationMember::class);
+    }
+
     public function isAdmin() {
         return $this->is_admin;
     }

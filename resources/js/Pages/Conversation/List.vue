@@ -1,14 +1,20 @@
 <script setup>
 import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DealList from '@/Components/DealList.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import StatusSelect from '@/Components/StatusSelect.vue';
-import {defineProps} from "vue";
+import {defineProps, ref} from "vue";
 
 const props = defineProps({
-    deals: Object,
+    conversations: Object,
 });
+
+let messages = ref([]);
+
+function getMessages(conv) {
+    axios.get(`conversation/${conv}`)
+        .then(function (response) {
+            messages.value = response.data;
+        });
+}
 
 </script>
 
@@ -23,6 +29,21 @@ const props = defineProps({
                    class="bg-red-500 hover:red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">{{ $t('conversation.create_conversation')}}</a>
             </div>
         </template>
+        <div class="container flex">
+            <div class="sidebar bg-gray-200 w-1/3 overflow-hidden overflow-y-auto">
+                <div class="chat p-2 border border-gray-300" v-for="conv in conversations" @click="getMessages(conv.id)">{{conv.title}}</div>
+            </div>
+            <div class="chat-side w-2/3 border border-gray-300">
+                <div class="message" v-for="message in messages">{{message}}</div>
+            </div>
+        </div>
 
     </AuthenticatedLayout>
 </template>
+
+<style lang="scss">
+.sidebar {
+    max-height: 700px;
+}
+
+</style>

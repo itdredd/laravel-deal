@@ -23,7 +23,29 @@ class Conversation extends Model
             'updated_at',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(ConversationMessage::class);
+    }
+
+    public function conversationMembers()
+    {
+        return $this->hasMany(ConversationMember::class);
+    }
+
+    public function members()
+    {
+        $convMembers = $this->conversationMembers()->get();
+
+        foreach ($convMembers as $convMember) {
+            $members[] = $convMember->user;
+        }
+
+        return $members;
     }
 }

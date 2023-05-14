@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('user_id');
             $table->timestamp('last_read')->nullable();
             $table->timestamps();
-            $table->unique('conversation_id' , 'user_id');
+            $table->index(['conversation_id' , 'user_id']);
         });
     }
 

@@ -12,8 +12,7 @@ let users = ref([]);
 let finalUsers = ref([]);
 let membersId = '';
 let errors = ref([]);
-let guarantors = ref([]);
-
+let guarantors = ref([]); // todo edit to props?
 
 onMounted(() => {
     axios.get('/guarantors/find')

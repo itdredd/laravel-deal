@@ -18,4 +18,16 @@ class ConversationMember extends Model
     use HasFactory;
 
     protected $fillable = ['conversation_id' , 'user_id', 'last_read'];
+
+    protected $with = ['conversation', 'user'];
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

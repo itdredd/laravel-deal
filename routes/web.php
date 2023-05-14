@@ -57,6 +57,8 @@ Route::get('/guarantors/find', [\App\Http\Controllers\GuarantorController::class
 //conversation
 Route::get('/conversation', [\App\Http\Controllers\ConversationController::class, 'list'])->name('conv.list')->whereAlpha('status');
 Route::get('/conversation/create', [\App\Http\Controllers\ConversationController::class, 'store'])->name('conv.create');
+Route::post('/conversation/create', [\App\Http\Controllers\ConversationController::class, 'create']);
+Route::get('/conversation/{conversation}', [\App\Http\Controllers\ConversationController::class, 'message'])->whereNumber('conversation');
 
 //profile
 Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');
