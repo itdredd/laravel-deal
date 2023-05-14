@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conversation_messages', function (Blueprint $table) {
+        Schema::create('conversation_members', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
             $table->unsignedInteger('conversation_id');
-            $table->text('message');
+            $table->unsignedInteger('user_id');
+            $table->timestamp('last_read')->nullable();
             $table->timestamps();
+            $table->unique('conversation_id' , 'user_id');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conversation_messages');
+        Schema::dropIfExists('conversation_members');
     }
 };
