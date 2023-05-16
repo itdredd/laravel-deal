@@ -2,6 +2,7 @@
 import {Head} from '@inertiajs/inertia-vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {defineProps, onMounted, ref} from "vue";
+import MessageInput from "@/Components/MessageInput.vue";
 
 const props = defineProps({
     conversations: Object,
@@ -10,6 +11,7 @@ const props = defineProps({
 let messages = ref([]);
 let page = 1;
 let conversations = ref(props.conversations);
+let currentConversation;
 
 onMounted(() => {
     const masonry = document.querySelector('div.sidebar');
@@ -20,15 +22,16 @@ onMounted(() => {
     })
 })
 
-function getMessages(conv) {
-    axios.get(`conversation/${conv}`)
+async function getMessages(conv) {
+    currentConversation = conv;
+    await axios.get(`conversation/${conv.id}`)
         .then(function (response) {
             messages.value = response.data;
         });
 }
 
 async function getConversation() {
-    await axios.get(`conversation?page=${++page}`)
+    await axios.get(`conversation?page=${++page}&type=ajax`)
         .then(function (response) {
             conversations.value = conversations.value.concat(response.data);
         });
@@ -49,10 +52,14 @@ async function getConversation() {
         </template>
         <div class="container flex">
             <div class="sidebar bg-gray-200 w-1/3 overflow-hidden overflow-y-auto">
-                <div class="chat p-2 border border-gray-300" v-for="conv in conversations" @click="getMessages(conv.id)">{{conv.title}}</div>
+                <div class="chat p-2 border border-gray-300" v-for="conv in conversations" @click="getMessages(conv)">{{conv.title}}</div>
             </div>
-            <div class="chat-side w-2/3 border border-gray-300">
-                <div class="message" v-for="message in messages">{{message}}</div>
+            <div class="chat-side w-2/3 border border-gray-300 relative">
+                <div class="message" v-for="message in messages">
+                    <div class="message-author">{{message.user.name}}</div>
+                    <div class="message-text">{{message.message}}</div>
+                </div>
+                <MessageInput class="absolute bottom-0" v-if="currentConversation" type="conversation" :object="currentConversation"/>
             </div>
         </div>
 

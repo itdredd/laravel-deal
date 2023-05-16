@@ -1,5 +1,5 @@
 <template>
-    <div class="message-input">
+    <div class="message-input w-full">
         <form method="POST" @submit="sentMessage">
             <TextArea class="w-full" name="message" :value="message ? message.message : ''" :placeholder="$t('form.enter_your_message')"
                       :disabled="object ? (object.status === 'rejected' || object.status === 'close') : false"/>

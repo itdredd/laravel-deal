@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
+use App\Models\ConversationMessage;
 use App\Services\Conversation\Creator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ConversationController extends Controller
@@ -24,7 +24,7 @@ class ConversationController extends Controller
             $conversations[] = $conversationMember->conversation;
         }
 
-        if ($request->ajax()) {
+        if ($request->input('type') == 'ajax') {
             return response()->json($conversations);
         }
 
@@ -42,7 +42,7 @@ class ConversationController extends Controller
     {
         Creator::createConversation($request->input('title'), $request->input('message'), $request->input('members_id'));
 
-        return Redirect::route('conv.list');
+        return redirect()->route('conv.list');
     }
 
     public function message(Conversation $conversation, Request $request)
@@ -50,5 +50,20 @@ class ConversationController extends Controller
         $this->authorize('view', $conversation);
 
         return response()->json($conversation->messages);
+    }
+
+    public function postReply(Conversation $conversation, Request $request)
+    {
+        $visitor = Auth::user();
+
+        $this->authorize('view', $conversation);
+
+        ConversationMessage::create([
+                'user_id' => $visitor->id,
+                'message' => $request->input('message'),
+                'conversation_id' => $conversation->id
+        ]);
+
+        return redirect()->route('conv.list');
     }
 }

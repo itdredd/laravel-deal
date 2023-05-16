@@ -59,6 +59,7 @@ Route::get('/conversation', [\App\Http\Controllers\ConversationController::class
 Route::get('/conversation/create', [\App\Http\Controllers\ConversationController::class, 'store'])->name('conv.create');
 Route::post('/conversation/create', [\App\Http\Controllers\ConversationController::class, 'create']);
 Route::get('/conversation/{conversation}', [\App\Http\Controllers\ConversationController::class, 'message'])->whereNumber('conversation');
+Route::post('/conversation/{conversation}/post-reply', [\App\Http\Controllers\ConversationController::class, 'postReply'])->name('conv.post-reply')->whereNumber('conversation');
 
 //profile
 Route::post('/profile/avatar', [ProfileController::class, 'avatar'])->name('profile.avatar');
