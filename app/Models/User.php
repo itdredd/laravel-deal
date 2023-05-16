@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function conversationsMember()
     {
-        return $this->hasMany(ConversationMember::class);
+        return $this->hasMany(ConversationMember::class)->orderBy('id', 'DESC');
     }
 
     public function isAdmin() {

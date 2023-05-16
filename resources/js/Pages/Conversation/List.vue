@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 let messages = ref([]);
-let page = 0;
+let page = 1;
 let conversations = ref(props.conversations);
 
 onMounted(() => {
