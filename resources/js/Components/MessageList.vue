@@ -75,7 +75,7 @@ const getResults = async (page = 1) => {
             />
         </div>
     </div>
-    <MessageInput :deal="deal"/>
+    <MessageInput type="deal" :object="deal"/>
 </template>
 
 <style lang="scss">
