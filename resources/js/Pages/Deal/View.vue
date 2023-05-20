@@ -61,7 +61,7 @@ function listUsernames(members) {
                 {{ $t('deal.description_x', {'description': shortDesc ? deal.description.substring(0, 500) : deal.description}) }}
                 <i class="fas fa-ellipsis-h" v-if="deal.description.length > 500" @click="shortDesc = !shortDesc" title="Extend text"></i>
             </span>
-            <span class="deal-information--price block">{{ $t('deal.price_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>
+            <span class="deal-information--price block">{{ $t('deal.price_x', {'amount': deal.value, 'currency': deal.currency}) }}</span>
             <span class="deal-information--balance block">{{ $t('deal.balance_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>
             <span class="deal-information--author block">{{ $t('deal.author_x', {'name': deal.author.name}) }}</span>
             <span class="deal-information--members block">{{ $t('deal.members_x', {'members': listUsernames(members)}) }}</span>
