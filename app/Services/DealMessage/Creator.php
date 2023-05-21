@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Message;
+namespace App\Services\DealMessage;
 
 use App\Events\MessageSent;
 use App\Models\Deal;
@@ -37,7 +37,7 @@ class Creator
 
     public function save() {
         $this->message->save();
-        MessageSent::dispatch($this->message);
+        MessageSent::dispatch('deal', $this->message);
 
         return $this->message;
     }

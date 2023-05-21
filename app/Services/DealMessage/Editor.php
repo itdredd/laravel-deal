@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Message;
+namespace App\Services\DealMessage;
 
 use App\Models\DealMessage;
 use App\Models\MessageHistory;

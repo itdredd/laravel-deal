@@ -18,20 +18,17 @@ class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * DealMessage details
-     *
-     * @var DealMessage
-     */
     public $message;
+    public $type;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(DealMessage $message)
+    public function __construct($type, $message)
     {
+        $this->type = $type;
         $this->message = $message;
     }
 
@@ -42,7 +39,18 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('deal-message.'.$this->message->deal->id);
+        $id = 0;
+        switch ($this->type) {
+            case 'deal': {
+                $id = $this->message->deal_id;
+                break;
+            }
+            case 'conversation': {
+                $id = $this->message->conversation_id;
+                break;
+            }
+        }
+        return new PrivateChannel($this->type.'-message.'.$id);
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Message;
+namespace App\Services\DealMessage;
 
 use App\Models\Deal;
 use App\Models\DealMessage;

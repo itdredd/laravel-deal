@@ -138,7 +138,7 @@ class DealController extends Controller
 
         $this->authorize('postReply', $deal);
 
-        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
+        $creatorService = new \App\Services\DealMessage\Creator($deal); // TODO another way?
         $creatorService->create($request->input('message'));
         $creatorService->setUser($visitor);
         $creatorService->save();
@@ -151,7 +151,7 @@ class DealController extends Controller
         $deal->balance = $deal->value;
         $deal->save();
 
-        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
+        $creatorService = new \App\Services\DealMessage\Creator($deal); // TODO another way?
         $creatorService->create("The transaction balance was replenished by $deal->balance $deal->currency.");
         $creatorService->setUser(User::find(1));
         $creatorService->save();
@@ -165,7 +165,7 @@ class DealController extends Controller
         $deal->status = 'closed';
         $deal->save();
 
-        $creatorService = new \App\Services\Message\Creator($deal); // TODO another way?
+        $creatorService = new \App\Services\DealMessage\Creator($deal); // TODO another way?
         $creatorService->create(__('deal.deal_was_completed', ['name' => $visitor->name]));
         $creatorService->setUser(User::find($visitor->id));
         $creatorService->save();
