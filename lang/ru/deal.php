@@ -31,5 +31,6 @@ return [
         'nothing_to_render' => 'Нечего отображать',
         'deal_was_completed' => 'Сделка забыла завершена пользователем: :name.',
         'select_guarantor' => 'Выберите гаранта',
+        'request_guarantor' => 'Запросить гаранта'
 
 ];

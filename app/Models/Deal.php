@@ -19,6 +19,7 @@ use Illuminate\Support\Collection;
  * @property int $updated_at
  * @property string $status
  * @property int $balance
+ * @property int $guarantor_id
  */
 class Deal extends Model
 {
@@ -31,7 +32,8 @@ class Deal extends Model
         'currency',
         'members_id',
         'status',
-        'balance'
+        'balance',
+        'guarantor_id'
     ];
 
     protected $with = ['author', 'guarantor'];

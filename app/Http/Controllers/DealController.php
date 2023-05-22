@@ -83,8 +83,6 @@ class DealController extends Controller
 
     public function viewEdit(Deal $deal)
     {
-        $visitor = Auth::user();
-
         $this->authorize('update', $deal);
 
         return Inertia::render('Deal/Edit', [
@@ -157,7 +155,8 @@ class DealController extends Controller
         $creatorService->save();
     }
 
-    public function close(Deal $deal) {
+    public function close(Deal $deal)
+    {
         $visitor = Auth::user();
 
         $this->authorize('close', $deal);
@@ -171,5 +170,30 @@ class DealController extends Controller
         $creatorService->save();
 
         return redirect()->route('deal.list');
+    }
+
+    public function viewRequestGuarantor(Deal $deal)
+    {
+        $this->authorize('view', $deal);
+
+        return Inertia::render('Deal/RequestGuarantor', [
+                'deal' => $deal,
+        ]);
+    }
+
+    public function requestGuarantor(Request $request, Deal $deal)
+    {
+        $this->authorize('view', $deal);
+
+        $guarantor = $request->input('guarantor');
+
+        if ($guarantor) {
+            $guarantor = User::find($guarantor);
+        }
+
+        $editorService = new \App\Services\Deal\Editor($deal);
+        $editorService->setGuarantor($guarantor);
+
+        return redirect()->route('deal.view', ['deal' => $deal]);
     }
 }

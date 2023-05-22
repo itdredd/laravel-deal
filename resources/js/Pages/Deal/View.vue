@@ -69,9 +69,13 @@ function listUsernames(members) {
             <span class="deal-information--create-date block">{{ $t('deal.created_at_x', {'date': convertTime(deal.created_at)})}}</span>
         </div>
         <div class="deal-actions mb-8">
-          <LinkButton v-if="deal.status === 'open' && visitor.id === deal.author.id" :href="route('deal.close', {'deal': deal})">
-              {{ $t('deal.close') }}
-          </LinkButton>
+            <LinkButton v-if="deal.status === 'open' && visitor.id === deal.author.id"
+                        :href="route('deal.close', {'deal': deal})">
+                {{ $t('deal.close') }}
+            </LinkButton>
+            <LinkButton :href="route('deal.request-guarantor', {'deal': deal})" v-if="!deal.guarantor">
+                {{ $t('deal.request_guarantor') }}
+            </LinkButton>
         </div>
 
         <div class="messages">
@@ -89,5 +93,11 @@ function listUsernames(members) {
 }
 i {
     cursor: pointer;
+}
+
+.deal-actions {
+    a+a {
+        margin-left: 1em;
+    }
 }
 </style>

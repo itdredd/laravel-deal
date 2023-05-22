@@ -9,5 +9,6 @@ return [
         'title' => 'Title',
         'value' => 'Value',
         'create' => 'Create',
+        'request' => 'Request',
 
 ];

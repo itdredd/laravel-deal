@@ -31,5 +31,6 @@ return [
         'nothing_to_render' => 'Nothing to render',
         'deal_was_completed' => 'The deal was completed by :name.',
         'select_guarantor' => 'Select the guarantor',
+        'request_guarantor' => 'Request a guarantor'
 
 ];
