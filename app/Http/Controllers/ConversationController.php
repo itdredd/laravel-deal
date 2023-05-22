@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Services\Conversation\Creator;
@@ -58,11 +59,13 @@ class ConversationController extends Controller
 
         $this->authorize('view', $conversation);
 
-        ConversationMessage::create([
+        $conversation = ConversationMessage::create([
                 'user_id' => $visitor->id,
                 'message' => $request->input('message'),
                 'conversation_id' => $conversation->id
         ]);
+
+        MessageSent::dispatch('conversation', $conversation);
 
         return redirect()->route('conv.list');
     }

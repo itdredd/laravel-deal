@@ -28,6 +28,10 @@ async function getMessages(conv) {
         .then(function (response) {
             messages.value = response.data;
         });
+    Echo.private('conversation-message.' + currentConversation.id)
+        .listen('MessageSent', (e) => {
+            messages.value.push(e.message);
+        });
 }
 
 async function getConversation() {
@@ -59,10 +63,9 @@ async function getConversation() {
                     <div class="flex flex-col mt-5">
                         <div class="message" v-for="message in messages">
                             <div class="flex justify-end mb-4 items-end" v-if="message.user.id == $page.props.auth.user.id">
-                                <div
-                                    class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
-                                >
-                                    {{message.message}}
+                                <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                                    <span class="message-author block">{{message.user.name}}</span>
+                                    <span class="message-text block">{{message.message}}</span>
                                 </div>
                                 <img
                                     :src="'/storage/avatars/' +  message.user.avatar"
@@ -79,7 +82,8 @@ async function getConversation() {
                                 <div
                                     class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
                                 >
-                                    {{message.message}}
+                                    <span class="message-author block">{{message.user.name}}</span>
+                                    <span class="message-text block">{{message.message}}</span>
                                 </div>
                             </div>
                         </div>

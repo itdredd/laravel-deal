@@ -21,3 +21,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('deal-message.{id}', function ($id) {
     return Auth::check(); // todo check on unavaliable deal
 });
+
+Broadcast::channel('conversation-message.{id}', function ($id) {
+    return Auth::check(); // todo check on unavaliable deal
+});
