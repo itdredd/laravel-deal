@@ -77,11 +77,11 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <DropdownLink :href="route('profile.edit')"> {{ $t('profile.profile') }} </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            {{ $t('auth.log_out') }}
-                                        </DropdownLink>
                                         <DropdownLink :href="route('profile.change-language')" @click="loadLanguageAsync(getActiveLanguage() == 'en' ? 'ru' : 'en')">
                                             {{ $t('auth.change_language') }}
+                                        </DropdownLink>
+                                        <DropdownLink :href="route('logout')" method="post" as="button">
+                                            {{ $t('auth.log_out') }}
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
