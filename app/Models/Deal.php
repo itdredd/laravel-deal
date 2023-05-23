@@ -36,9 +36,6 @@ class Deal extends Model
 
     protected $with = ['author', 'guarantor', 'members'];
 
-    public function status() {
-        return $this->status;
-    }
     public function author() {
         return $this->belongsTo(User::class, 'author_id');
     }
@@ -53,7 +50,7 @@ class Deal extends Model
 
     public function members()
     {
-        return $this->hasMany(DealMember::class);
+        return $this->hasMany(DealMember::class)->orderBy('created_at');
     }
 
     public function isOpen() {

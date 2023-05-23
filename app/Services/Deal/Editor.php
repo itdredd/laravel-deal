@@ -3,6 +3,7 @@
 namespace App\Services\Deal;
 
 use App\Models\Deal;
+use App\Models\DealMember;
 use App\Models\User;
 
 class Editor
@@ -22,5 +23,10 @@ class Editor
 
         $this->deal->guarantor_id = $user;
         $this->deal->save();
+
+        DealMember::create([
+                'user_id' => $user,
+                'deal_id' => $this->deal->id
+        ]);
     }
 }

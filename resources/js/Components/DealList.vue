@@ -7,7 +7,7 @@
 
             <div class="information information-members mr-16">
                 <span class="block">{{ $t('deal.members') + ':' }}</span>
-                <span class="block">{{ formatMembers(deal.members) }}</span>
+                <span class="block">{{ formatMembers(deal) }}</span>
             </div>
             <div class="information information-date">
                 <span class="block">{{ convertTime(deal.created_at) }}</span>
@@ -25,17 +25,21 @@
 import {defineProps} from "vue";
 
 const props = defineProps({
-  deals: Object,
+    deals: Object,
 })
 
 function convertTime(time) {
-  return new Date(time).toLocaleString();
+    return new Date(time).toLocaleString();
 }
 
-function formatMembers(members) {
+function formatMembers(deal) {
     let list = '';
 
-    for (const member of members) {
+    for (const member of deal.members) {
+        if (member.user.id === deal.guarantor.id) {
+            continue;
+        }
+
         if (list.length) {
             list += ', ';
         }

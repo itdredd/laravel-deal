@@ -69,7 +69,7 @@ class Creator
 
         if ($this->deal->guarantor) {
             DealMember::create([
-                    'user_id' => $user->guarantor_id,
+                    'user_id' => $this->deal->guarantor_id,
                     'deal_id' => $this->deal->id
             ]);
         }
