@@ -25,7 +25,7 @@ const props = defineProps({
                     deal</a>
             </div>
         </template>
-        <MessageInput action="Edit" :message="message"/>
+        <MessageInput action="edit" type="message" :object="message"/>
 
     </AuthenticatedLayout>
 </template>

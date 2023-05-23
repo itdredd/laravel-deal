@@ -6,7 +6,7 @@ use App\Models\DealMessage;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MessagePolicy
+class DealMessagePolicy
 {
     use HandlesAuthorization;
 

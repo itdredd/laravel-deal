@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class MessageController extends Controller
+class DealMessageController extends Controller
 {
     private MessageRepository $messageRepo;
     public function __construct(MessageRepository $messageRepo)

@@ -45,10 +45,10 @@ Route::post('/deal/{deal}/post-reply', [\App\Http\Controllers\DealController::cl
 Route::get('/deal/{deal}/request-guarantor', [\App\Http\Controllers\DealController::class, 'viewRequestGuarantor'])->name('deal.request-guarantor')->whereNumber('deal');
 Route::post('/deal/{deal}/request-guarantor', [\App\Http\Controllers\DealController::class, 'requestGuarantor'])->whereNumber('deal');
 
-Route::get('/message/deal/{deal}', [\App\Http\Controllers\MessageController::class, 'getDealMessages'])->name('message.deal-message')->whereNumber('deal');
-Route::get('/message/{message}/remove', [\App\Http\Controllers\MessageController::class, 'remove'])->name('message.remove')->whereNumber('message');
-Route::get('/message/{message}/edit', [\App\Http\Controllers\MessageController::class, 'viewEdit'])->name('message.edit')->whereNumber('message');
-Route::post('/message/{message}/edit', [\App\Http\Controllers\MessageController::class, 'edit'])->whereNumber('message');
+Route::get('/message/deal/{deal}', [\App\Http\Controllers\DealMessageController::class, 'getDealMessages'])->name('message.deal-message')->whereNumber('deal');
+Route::get('/message/{message}/remove', [\App\Http\Controllers\DealMessageController::class, 'remove'])->name('message.remove')->whereNumber('message');
+Route::get('/message/{message}/edit', [\App\Http\Controllers\DealMessageController::class, 'viewEdit'])->name('message.edit')->whereNumber('message');
+Route::post('/message/{message}/edit', [\App\Http\Controllers\DealMessageController::class, 'edit'])->whereNumber('message');
 
 //find
 Route::post('/users/find', [\App\Http\Controllers\UserController::class, 'findUser']);

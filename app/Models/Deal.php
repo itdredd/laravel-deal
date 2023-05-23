@@ -53,8 +53,13 @@ class Deal extends Model
         return $this->hasMany(DealMember::class)->orderBy('created_at');
     }
 
-    public function isOpen() {
-        return $this->status === 'open';
+    public function isMember($user)
+    {
+        foreach ($this->members as $member) {
+            if ($member->user->id === $user->id) {
+                return true;
+            }
+        }
     }
 
 }
