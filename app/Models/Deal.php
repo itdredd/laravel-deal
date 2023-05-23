@@ -14,7 +14,6 @@ use Illuminate\Support\Collection;
  * @property int $author_id
  * @property int $value
  * @property string $currency
- * @property string $members_id
  * @property int $created_at
  * @property int $updated_at
  * @property string $status
@@ -30,13 +29,12 @@ class Deal extends Model
         'author_id',
         'value',
         'currency',
-        'members_id',
         'status',
         'balance',
         'guarantor_id'
     ];
 
-    protected $with = ['author', 'guarantor'];
+    protected $with = ['author', 'guarantor', 'members'];
 
     public function status() {
         return $this->status;
@@ -53,26 +51,13 @@ class Deal extends Model
         return $this->belongsTo(User::class);
     }
 
-    // TODO edit to relationship
-    /**
-     * @return Collection
-     */
-    public function members() {
-        return User::whereIn('id', explode(", ", $this->members_id))->get();
-    }
-
-    public function isMember(User $user) {
-        return $this->members()->contains($user);
+    public function members()
+    {
+        return $this->hasMany(DealMember::class);
     }
 
     public function isOpen() {
         return $this->status === 'open';
-    }
-
-    protected function price() : Attribute {
-        return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['value'] . ' ' . $attributes['currency'],
-        );
     }
 
 }

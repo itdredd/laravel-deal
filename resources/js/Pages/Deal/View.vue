@@ -5,7 +5,7 @@ import MessageList from '@/Components/MessageList.vue';
 import LinkButton from "@/Components/LinkButton.vue";
 import {ref} from "vue";
 
-defineProps({
+const props = defineProps({
     deal: Object,
     visitor: Object,
     members: Object,
@@ -18,14 +18,14 @@ function convertTime(time) {
     return new Date(time).toLocaleString();
 }
 
-function listUsernames(members) {
+function formatMembers(members) {
     let list = '';
 
-    for (const member of members) {
-        list += member.name;
-
-        if (member !== members[members.length - 1])
+    for (const member of members.slice(1)) {
+        if (list.length) {
             list += ', ';
+        }
+        list += member.user.name;
     }
     return list;
 }
@@ -64,7 +64,7 @@ function listUsernames(members) {
             <span class="deal-information--price block">{{ $t('deal.price_x', {'amount': deal.value, 'currency': deal.currency}) }}</span>
             <span class="deal-information--balance block">{{ $t('deal.balance_x', {'amount': deal.balance, 'currency': deal.currency}) }}</span>
             <span class="deal-information--author block">{{ $t('deal.author_x', {'name': deal.author.name}) }}</span>
-            <span class="deal-information--members block">{{ $t('deal.members_x', {'members': listUsernames(members)}) }}</span>
+            <span class="deal-information--members block">{{ $t('deal.members_x', {'members': formatMembers(deal.members)}) }}</span>
             <span class="deal-information--guarantor block" v-if="deal.guarantor"> {{ $t('deal.guarantor_x', {'name': deal.guarantor.name}) }}</span>
             <span class="deal-information--create-date block">{{ $t('deal.created_at_x', {'date': convertTime(deal.created_at)})}}</span>
         </div>

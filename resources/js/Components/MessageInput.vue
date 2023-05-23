@@ -3,7 +3,7 @@
         <form class="flex" method="POST" @submit="sentMessage">
             <TextArea class="w-full" name="message" :value="message ? message.message : ''" :placeholder="$t('form.enter_your_message')"
                       :disabled="object ? (object.status === 'rejected' || object.status === 'close') : false"/>
-            <PrimaryButton class="w-24" :disabled="object ? (object.status === 'rejected' || object.status === 'close') : false">
+            <PrimaryButton class="min-w-max" :disabled="object ? (object.status === 'rejected' || object.status === 'close') : false">
                 {{ action ?? $t('form.sent') }}
             </PrimaryButton>
             <input type="hidden" name="_token" :value="csrf">

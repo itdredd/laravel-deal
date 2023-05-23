@@ -3,6 +3,7 @@
 namespace App\Services\Deal;
 
 use App\Models\Deal;
+use App\Models\DealMember;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,13 +22,15 @@ class Creator
     {
         $this->setupData($data['title'], $data['description']);
         $this->setPrice($data['currency'], $data['value']);
-        $this->setMembers($data['members_id']);
-        $this->setAuthor();
         $this->setGuarantor($data['guarantor_id']);
+        $this->setAuthor();
+
+        $this->deal->save();
         return $this->deal;
     }
 
-    protected function setGuarantor($id) {
+    protected function setGuarantor($id)
+    {
         $user = User::find($id);
 
         if ($user) {
@@ -46,20 +49,29 @@ class Creator
     {
         $this->deal->currency = $currency;
         $this->deal->value = $value;
-
     }
 
-    protected function setMembers(string $members)
+    public function setMembers($members)
     {
-        $members = explode(", ", $members);
-        $users = User::whereIn('name', $members)->get(); // TODO check this way on invalid data
+        $users = User::whereIn('name', $members)->get();
 
-        foreach ($users as $user) { // TODO bruh?
-            if (!$this->deal->members_id) {
-                $this->deal->members_id = $user->id;
-            } else {
-                $this->deal->members_id = $this->deal->members_id.", ".$user->id;
-            }
+        DealMember::create([
+                'user_id' => $this->visitor->id,
+                'deal_id' => $this->deal->id
+        ]);
+
+        foreach ($users as $user) {
+            DealMember::create([
+                    'user_id' => $user->id,
+                    'deal_id' => $this->deal->id
+            ]);
+        }
+
+        if ($this->deal->guarantor) {
+            DealMember::create([
+                    'user_id' => $user->guarantor_id,
+                    'deal_id' => $this->deal->id
+            ]);
         }
     }
 

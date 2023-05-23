@@ -35,7 +35,7 @@ class DealController extends Controller
         $creatorService = new \App\Services\Deal\Creator();
 
         $deal = $creatorService->create($request->input());
-        $deal->save();
+        $creatorService->setMembers(explode(", ", $request->input('members_id')));
 
         return redirect()->route('deal.view', ['deal' => $deal->id]);
     }
@@ -76,7 +76,7 @@ class DealController extends Controller
         return Inertia::render('Deal/View', [
                 'deal' => $deal,
                 'visitor' => $visitor,
-                'members' => $deal->members(),
+                'members' => $deal->members,
                 'messages' => $messages,
         ]);
     }
