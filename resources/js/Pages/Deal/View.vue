@@ -22,7 +22,7 @@ function formatMembers(members) {
     let list = '';
 
     for (const member of members.slice(1)) {
-        if (member.user.id === props.deal.guarantor.id) {
+        if (member.user.id === props.deal.guarantor_id) {
             continue;
         }
 

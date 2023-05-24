@@ -16,8 +16,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/deal');
+Route::fallback(function () {
+    return redirect()->route('deal.list');
 });
 
 Route::get('/dashboard', function () {

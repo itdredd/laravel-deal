@@ -36,7 +36,7 @@ function formatMembers(deal) {
     let list = '';
 
     for (const member of deal.members) {
-        if (member.user.id === deal.guarantor.id) {
+        if (member.user.id === deal.guarantor_id) {
             continue;
         }
 

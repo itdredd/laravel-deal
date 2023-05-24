@@ -10,6 +10,7 @@ return [
         'value' => 'Value',
         'create' => 'Create',
         'request' => 'Request',
-        'Edit' => 'Edit',
+        'edit' => 'Edit',
+        'post-reply' => 'Reply',
 
 ];

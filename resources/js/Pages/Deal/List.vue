@@ -24,7 +24,7 @@ const props = defineProps({
             </div>
         </template>
 
-        <div class="filters">
+        <div class="filters w-max ml-auto">
             <form method="get" class="flex">
                 <StatusSelect
                     class="block w-48 p-2.5"
