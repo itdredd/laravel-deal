@@ -92,5 +92,9 @@ class UserPolicy
         //
     }
 
+    public function viewAdminPanel(User $user)
+    {
+        return $user->is_admin;
+    }
 
 }

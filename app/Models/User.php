@@ -49,7 +49,7 @@ class User extends Authenticatable
     public function messages() {
         return $this->hasMany(DealMessage::class);
     }
-    
+
     public function deals()
     {
         return $this->hasMany(Deal::class, 'author_id');
@@ -63,10 +63,6 @@ class User extends Authenticatable
     public function conversationsMember()
     {
         return $this->hasMany(ConversationMember::class)->orderBy('id', 'DESC');
-    }
-
-    public function isAdmin() {
-        return $this->is_admin;
     }
 
     public function getAvatarUrl() {

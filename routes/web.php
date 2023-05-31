@@ -73,4 +73,8 @@ Route::prefix('profile')->group(function () {
     });
 });
 
+Route::prefix('admin')->group(function () {
+    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers']);
+});
+
 require __DIR__.'/auth.php';
