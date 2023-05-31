@@ -15,18 +15,16 @@ class Editor
         $this->deal = $deal;
     }
 
-    public function setGuarantor($user)
+    public function setGuarantor(User $user)
     {
-        if ($user instanceof User) {
-            $user = $user->id;
-        }
+        if ($user->is_guarantor) {
+            $this->deal->guarantor_id = $user->id;
+            $this->deal->save();
 
-        $this->deal->guarantor_id = $user;
-        $this->deal->save();
-
-        DealMember::create([
-                'user_id' => $user,
+            DealMember::create([
+                'user_id' => $user->id,
                 'deal_id' => $this->deal->id
-        ]);
+            ]);
+        }
     }
 }

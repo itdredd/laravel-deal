@@ -189,10 +189,10 @@ class DealController extends Controller
 
         if ($guarantor) {
             $guarantor = User::find($guarantor);
-        }
 
-        $editorService = new \App\Services\Deal\Editor($deal);
-        $editorService->setGuarantor($guarantor);
+            $editorService = new \App\Services\Deal\Editor($deal);
+            $editorService->setGuarantor($guarantor);
+        }
 
         return redirect()->route('deal.view', ['deal' => $deal]);
     }
