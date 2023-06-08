@@ -27,6 +27,7 @@ const props = defineProps({
 
 function sentMessage(e) {
     let formData = new FormData(e.target);
+    e.preventDefault();
 
     axios.post(`/${props.type}/${props.object.id}/${props.action}`, {
         _token: formData.get('_token'),

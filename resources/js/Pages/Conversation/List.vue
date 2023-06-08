@@ -107,7 +107,7 @@ async function getConversation() {
 
 <style lang="scss">
 .conversation {
-    max-height: 700px;
+    height: 75vh;
 }
 
 .chat {

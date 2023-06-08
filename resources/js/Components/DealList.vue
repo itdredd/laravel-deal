@@ -29,7 +29,7 @@ const props = defineProps({
 })
 
 function convertTime(time) {
-    return new Date(time).toLocaleString();
+    return new Date(time).toLocaleString([], {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
 }
 
 function formatMembers(deal) {
