@@ -75,6 +75,11 @@ Route::prefix('profile')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers']);
+    Route::match(['get', 'post'], '/set-guarantor', [\App\Http\Controllers\AdminController::class, 'setGuarantor']);
+});
+
+Route::prefix('guarantors')->group(function () {
+    Route::get('/', [\App\Http\Controllers\GuarantorController::class, 'list'])->name('guarantors');
 });
 
 require __DIR__.'/auth.php';
