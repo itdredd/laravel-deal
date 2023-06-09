@@ -10,6 +10,20 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 use LaravelAndVueJS\Traits\LaravelPermissionToVueJS;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property int $email_verified_at
+ * @property string $password
+ * @property $remember_token
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $avatar
+ * @property int $is_admin
+ * @property int $is_guarantor
+ * @property string $language
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
