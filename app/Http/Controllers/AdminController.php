@@ -7,6 +7,7 @@ use App\Models\Guarantor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
@@ -21,9 +22,16 @@ class AdminController extends Controller
     {
         $this->authorize('viewAdminPanel', Auth::user());
 
-        $user = User::where('name', $request->input('name'))->get();
+        if ($request->isMethod('get')) {
+            return Inertia::render('Admin/SetGuarantor');
+        }
+
+        $user = User::where('name', $request->input('name'))->first();
 
         if ($user) {
+            $user->is_guarantor = 1;
+            $user->save();
+
             Guarantor::create([
                 'user_id' => $user->id,
             ]);
