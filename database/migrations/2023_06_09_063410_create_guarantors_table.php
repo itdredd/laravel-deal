@@ -11,15 +11,15 @@ return new class extends Migration
      *
      * @return void
      */
-    
+
     public function up()
     {
         Schema::create('guarantors', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned();
-            $table->float('rating');
-            $table->integer('successful_deals');
-            $table->integer('dissatisfied_deals');
+            $table->float('rating')->default(0);
+            $table->integer('successful_deals')->default(0);
+            $table->integer('dissatisfied_deals')->default(0);
             $table->timestamps();
         });
     }
