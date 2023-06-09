@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('rating')->default(0);
             $table->integer('successful_deals')->default(0);
             $table->integer('dissatisfied_deals')->default(0);
+            $table->unique('user_id');
             $table->timestamps();
         });
     }
