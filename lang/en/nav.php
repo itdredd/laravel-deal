@@ -3,5 +3,5 @@
 return [
 
         'dashboard' => 'Dashboard',
-
+        'admin' => 'Admin',
 ];

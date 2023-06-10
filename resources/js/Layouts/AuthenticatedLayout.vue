@@ -35,6 +35,11 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('admin.list')" :active="route().current('admin.*')">
+                                    {{ $t('nav.admin') }}
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('deal.list')" :active="route().current('deal.*')">
                                     {{ $t('deal.deals') }}
                                 </NavLink>

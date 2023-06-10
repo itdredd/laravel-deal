@@ -74,8 +74,9 @@ Route::prefix('profile')->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers']);
-    Route::match(['get', 'post'], '/set-guarantor', [\App\Http\Controllers\AdminController::class, 'setGuarantor']);
+    Route::get('', [\App\Http\Controllers\AdminController::class, 'list'])->name('admin.list');
+    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'getUsers'])->name('admin.get-users');
+    Route::match(['get', 'post'], '/set-guarantor', [\App\Http\Controllers\AdminController::class, 'setGuarantor'])->name('admin.set-guarantor');
 });
 
 Route::prefix('guarantors')->group(function () {

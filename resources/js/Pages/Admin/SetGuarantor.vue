@@ -36,8 +36,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
         </form>
 
     </AuthenticatedLayout>
-
-    />
 </template>
 
 <style scoped lang="scss">

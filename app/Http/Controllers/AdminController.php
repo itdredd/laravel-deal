@@ -11,6 +11,11 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
+    public function list()
+    {
+        return Inertia::render('Admin/List');
+    }
+
     public function getUsers()
     {
         $this->authorize('viewAdminPanel', Auth::user());
