@@ -37,6 +37,6 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect()->route('guarantors');
+        return redirect()->route('guarantors.list');
     }
 }

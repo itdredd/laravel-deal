@@ -79,7 +79,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::prefix('guarantors')->group(function () {
-    Route::get('/', [\App\Http\Controllers\GuarantorController::class, 'list'])->name('guarantors');
+    Route::get('/', [\App\Http\Controllers\GuarantorController::class, 'list'])->name('guarantors.list');
 });
 
 require __DIR__.'/auth.php';
