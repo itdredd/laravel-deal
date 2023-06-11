@@ -11,6 +11,6 @@ return [
         'create' => 'Create',
         'request' => 'Request',
         'edit' => 'Edit',
-        'post_reply' => 'Reply',
+        'post-reply' => 'Reply',
 
 ];
