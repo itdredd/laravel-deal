@@ -10,7 +10,6 @@ use Inertia\Inertia;
 
 class GuarantorController extends Controller
 {
-
     public function find(Request $request)
     {
         $users = User::where('is_guarantor', 1);

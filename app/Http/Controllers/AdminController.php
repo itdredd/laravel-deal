@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function list()
     {
         $this->authorize('viewAdminPanel', Auth::user());
-        
+
         return Inertia::render('Admin/List');
     }
 
